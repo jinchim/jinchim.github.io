@@ -95,7 +95,7 @@
 安装N">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Mac上搭建属于自己的博客">
-<meta property="og:url" content="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/index.html">
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="第一篇博客，文笔较烂，勿喷～～～这篇文章详细讲述如何在Mac环境下使用Hexo+Github搭建个人博客，本人也是搜索了很多教程，踩了很多的坑搭起来的。废话不多说，直接来！
 环境配置Hexo官网上本就有对Hexo安装及使用的详细介绍，强烈推荐。这里来讲述自己安装的亲身步骤，或有区别。
@@ -103,11 +103,11 @@
 注意：本人的三个软件版本分为为：node-v7.8.0，git-v2.9.3，hexo-v3.2.2。
 
 安装N">
-<meta property="og:image" content="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/img02.png">
-<meta property="og:image" content="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/img01.png">
-<meta property="og:image" content="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/img03.png">
-<meta property="og:image" content="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/img04.png">
-<meta property="og:updated_time" content="2017-03-30T03:18:56.000Z">
+<meta property="og:image" content="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/img02.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/img01.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/img03.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/img04.png">
+<meta property="og:updated_time" content="2017-03-30T03:54:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Mac上搭建属于自己的博客">
 <meta name="twitter:description" content="第一篇博客，文笔较烂，勿喷～～～这篇文章详细讲述如何在Mac环境下使用Hexo+Github搭建个人博客，本人也是搜索了很多教程，踩了很多的坑搭起来的。废话不多说，直接来！
@@ -116,7 +116,7 @@
 注意：本人的三个软件版本分为为：node-v7.8.0，git-v2.9.3，hexo-v3.2.2。
 
 安装N">
-<meta name="twitter:image" content="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/img02.png">
+<meta name="twitter:image" content="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/img02.png">
 
 
 
@@ -144,7 +144,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/"/>
 
 
 
@@ -269,7 +269,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/29/EnvironmentConstructionForMac/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/13/EnvironmentConstructionForMac/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="金梧">
@@ -305,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-29T00:00:00+08:00">
-                2017-01-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-13T00:00:00+08:00">
+                2016-12-13
               </time>
             
 
@@ -354,7 +354,7 @@
 <h2 id="初始化Hexo"><a href="#初始化Hexo" class="headerlink" title="初始化Hexo"></a>初始化Hexo</h2><p>打开终端，指定想要存放数据的目录，cd到该目录，然后执行如下命令（hexo是你指定的文件夹名，所有的数据都放在里面）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo init hexo</div></pre></td></tr></table></figure>
 <p>如果是正常安装完成，会有以下东东：</p>
-<img src="/2017/01/29/EnvironmentConstructionForMac/img02.png" alt="img02.png" title="">
+<img src="/2016/12/13/EnvironmentConstructionForMac/img02.png" alt="img02.png" title="">
 <p><br></p>
 <blockquote>
 <p>注意：这里我卡住了，是由于下载themes文件夹中的默认主题landscape速度太慢了，我的解决办法是先停止终端程序，手动去Hexo官网下载<a href="https://github.com/hexojs/hexo-theme-landscape.git" target="_blank" rel="external">landscape</a>，将里面的文件复制到themes中，然后再次执行初始化命令，会跳过主题下载，接下来安装就很顺利了。</p>
@@ -364,7 +364,7 @@
 <p>接着开启Hexo服务器，执行下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo s       // 或者hexo server</div></pre></td></tr></table></figure>
 <p>这时，打开网址<a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a> ，能看到Hexo默认主页，如下图：</p>
-<img src="/2017/01/29/EnvironmentConstructionForMac/img01.png" alt="img01.png" title="">
+<img src="/2016/12/13/EnvironmentConstructionForMac/img01.png" alt="img01.png" title="">
 <p><br>至此，本地便配置好了。</p>
 <h1 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h1><h2 id="创建Github仓库"><a href="#创建Github仓库" class="headerlink" title="创建Github仓库"></a>创建Github仓库</h2><p><a href="https://www.github.com" target="_blank" rel="external">登录Github</a>，新建一个仓库，名称是固定写法，[用户名].github.io，比如我的是jinchim.github.io，这个域名就是以后我们博客的域名。</p>
 <h2 id="修改本地配置文件"><a href="#修改本地配置文件" class="headerlink" title="修改本地配置文件"></a>修改本地配置文件</h2><p>在hexo文件夹下，打开_config.yml文件（可以用vim命令打开，这里我是用Xcode打开的），修改配置文件中最后面的内容，如下图：</p>
@@ -387,7 +387,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C <span class="string">"jinchim@vip.qq.com"</span></div></pre></td></tr></table></figure>
 <p>后面的邮箱需要输入你自己的Github注册的邮箱地址。生成过程中要输入的全部选默认就好了（直接回车），默认会在路径~/.ssh/id_rsa.pub生成id_rsa和id_rsa.pub两个文件。</p>
 <h3 id="将SSH-key添加到Github中"><a href="#将SSH-key添加到Github中" class="headerlink" title="将SSH key添加到Github中"></a>将SSH key添加到Github中</h3><p>打开上一步生成的id_rsa.pub文件，里面的信息就是SSH key，全部复制，然后粘贴到Github的添加SSH key页面中去即可（Github -&gt; Setting -&gt; SSH keys），如下图：</p>
-<img src="/2017/01/29/EnvironmentConstructionForMac/img03.png" alt="img03.png" title="">
+<img src="/2016/12/13/EnvironmentConstructionForMac/img03.png" alt="img03.png" title="">
 <p><br>Title随便填一个，Key填写刚刚复制的内容，点击Add SSH key。</p>
 <h1 id="开始写博客"><a href="#开始写博客" class="headerlink" title="开始写博客"></a>开始写博客</h1><p>打开终端，cd到hexo目录下，输入下面命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"newPost"</span></div></pre></td></tr></table></figure>
@@ -403,7 +403,7 @@
 <h2 id="绑定个人域名"><a href="#绑定个人域名" class="headerlink" title="绑定个人域名"></a>绑定个人域名</h2><p>如果你觉得Github给的域名不够个性，可以绑定为自己的域名。首先，得自己去购买一个域名，推荐使用<a href="https://sg.godaddy.com/zh/" target="_blank" rel="external">Godaddy</a>或者<a href="https://wanwang.aliyun.com" target="_blank" rel="external">阿里云万网</a>。</p>
 <h3 id="Github端"><a href="#Github端" class="headerlink" title="Github端"></a>Github端</h3><p>在/hexo/themes/next/source目录下新建文件名为：CNAME文件，注意没有后缀名！直接将自己的域名写入，如：jinichim.com。打开终端，cd到hexo目录下，输入部署命令。</p>
 <h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>域名解析这里就不说了，购买域名的网站上有详细说明。这里贴出我的域名解析：</p>
-<img src="/2017/01/29/EnvironmentConstructionForMac/img04.png" alt="img04.png" title="">
+<img src="/2016/12/13/EnvironmentConstructionForMac/img04.png" alt="img04.png" title="">
 <p><br>解析后访问<a href="http://jinchim.com" target="_blank" rel="external">http://jinchim.com</a>和<a href="http://jinchim.github.io" target="_blank" rel="external">http://jinchim.github.io</a>就是一样的效果了！</p>
 <h2 id="关于插入图片"><a href="#关于插入图片" class="headerlink" title="关于插入图片"></a>关于插入图片</h2><p>可以使用Markdown外链图片，但是需要图床，每次使用得先上传，很麻烦有木有！</p>
 <p>这里Hexo官方给了一个标签插件，只需将_config.yml文件中的”post-asset-folder”选项设为true ，每次新建博客文件时便会在同级目录下生成一个和文件名一样的文件夹，将图片放进去，假设图片名为img.png，则可以这样使用。</p>
