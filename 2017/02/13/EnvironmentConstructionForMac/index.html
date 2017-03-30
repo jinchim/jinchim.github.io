@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/02/13/EnvironmentConstructionForMac/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/02/13/EnvironmentConstructionForMac/img03.png">
 <meta property="og:image" content="http://yoursite.com/2017/02/13/EnvironmentConstructionForMac/img04.png">
-<meta property="og:updated_time" content="2017-03-30T05:57:37.000Z">
+<meta property="og:updated_time" content="2017-03-30T06:11:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 Mac 上搭建属于自己的博客">
 <meta name="twitter:description" content="第一篇博客，文笔较烂，勿喷～～～这篇文章详细讲述如何在 Mac 环境下使用 Hexo + Github 搭建个人博客，本人也是搜索了很多教程，踩了很多的坑搭起来的。废话不多说，直接来！
@@ -356,7 +356,7 @@
 <p>当所有文件安装完成，cd 到 hexo 目录下，执行下面的命令，安装 npm：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install</div></pre></td></tr></table></figure>
 <p>接着开启 Hexo 服务器，执行下面的命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo s       // 或者hexo server</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo s       // 或者 hexo server</div></pre></td></tr></table></figure>
 <p>这时，打开网址 <a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a> ，能看到 Hexo 默认主页，如下图：</p>
 <img src="/2017/02/13/EnvironmentConstructionForMac/img01.png" alt="img01.png" title="">
 <p><br>至此，本地便配置好了。</p>
@@ -370,7 +370,7 @@
 <h2 id="安装相关插件"><a href="#安装相关插件" class="headerlink" title="安装相关插件"></a>安装相关插件</h2><p>使用 Hexo 某些命令要安装相关插件，先后执行下面命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo --save</div><div class="line"></div><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
 <h2 id="使用-Hexo-命令"><a href="#使用-Hexo-命令" class="headerlink" title="使用 Hexo 命令"></a>使用 Hexo 命令</h2><p>安装完成后就要使用 Hexo 的关键命令了，先解释下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ hexo clean       // 删除Hexo生成在本地的静态网页文件</div><div class="line"></div><div class="line">$ hexo g           // 或者hexo genarate，在本地生成静态网页文件，在hexo/public文件夹下</div><div class="line"></div><div class="line">$ hexo d           // 或者hexo deploy，将本地静态网页文件部署到Github上</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ hexo clean       // 删除 Hexo 生成在本地的静态网页文件</div><div class="line"></div><div class="line">$ hexo g           // 或者 hexo genarate，在本地生成静态网页文件，在 hexo/public 文件夹下</div><div class="line"></div><div class="line">$ hexo d           // 或者 hexo deploy，将本地静态网页文件部署到 Github 上</div></pre></td></tr></table></figure>
 <p>这三个指令在每次文件改变时（配置文件、博客源文件等）都需要依次执行才能生效，缺一不可。当然，也有简洁的写法，生成和部署可以合并为一个指令，如下面任何一个：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo g <span class="_">-d</span>        // 生成本地文件后部署</div><div class="line"></div><div class="line">$ hexo d -g        // 部署前先生成本地文件</div></pre></td></tr></table></figure>
 <p>如果你未关联 Github 账号，输入 hexo d 命令时终端会提示要输入 Github 账号和密码，按照步骤输入即可。若输入正确，部署成功，此时打开网址 <a href="http://jinchim.github.io" target="_blank" rel="external">http://jinchim.github.io</a> 能看到的和打开 <a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a> 时的一样。</p>

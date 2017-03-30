@@ -87,16 +87,19 @@
 
 
 
-<meta name="description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚">
+<meta name="description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。
+Android 系统版本对应的 API 等级直接上表，是从官网上找到的：http://source.an">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择">
 <meta property="og:url" content="http://yoursite.com/2017/03/12/AndroidVersion/index.html">
 <meta property="og:site_name" content="金梧的个人博客">
-<meta property="og:description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚">
-<meta property="og:updated_time" content="2017-03-30T05:59:28.000Z">
+<meta property="og:description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。
+Android 系统版本对应的 API 等级直接上表，是从官网上找到的：http://source.an">
+<meta property="og:updated_time" content="2017-03-30T06:31:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择">
-<meta name="twitter:description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚">
+<meta name="twitter:description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。
+Android 系统版本对应的 API 等级直接上表，是从官网上找到的：http://source.an">
 
 
 
@@ -321,7 +324,139 @@
       
 
       
-        <p>相信大家都已经转移到 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚</p>
+        <p>相信大家都已经转移到 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。</p>
+<h1 id="Android-系统版本对应的-API-等级"><a href="#Android-系统版本对应的-API-等级" class="headerlink" title="Android 系统版本对应的 API 等级"></a>Android 系统版本对应的 API 等级</h1><p>直接上表，是从官网上找到的：<a href="http://source.android.com/source/build-numbers.html" target="_blank" rel="external">http://source.android.com/source/build-numbers.html</a></p>
+<table>
+<thead>
+<tr>
+<th>Code name</th>
+<th>Version</th>
+<th>API level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nougat</td>
+<td>7.1</td>
+<td>API level 25</td>
+</tr>
+<tr>
+<td>Nougat</td>
+<td>7.0</td>
+<td>API level 24</td>
+</tr>
+<tr>
+<td>Marshmallow</td>
+<td>6.0</td>
+<td>API level 23</td>
+</tr>
+<tr>
+<td>Lollipop</td>
+<td>5.1</td>
+<td>API level 22</td>
+</tr>
+<tr>
+<td>Lollipop</td>
+<td>5.0</td>
+<td>API level 21</td>
+</tr>
+<tr>
+<td>KitKat</td>
+<td>4.4 - 4.4.4</td>
+<td>API level 19</td>
+</tr>
+<tr>
+<td>Jelly Bean</td>
+<td>4.3.x</td>
+<td>API level 18</td>
+</tr>
+<tr>
+<td>Jelly Bean</td>
+<td>4.2.x</td>
+<td>API level 17</td>
+</tr>
+<tr>
+<td>Jelly Bean</td>
+<td>4.1.x</td>
+<td>API level 16</td>
+</tr>
+<tr>
+<td>Ice Cream Sandwich</td>
+<td>4.0.3 - 4.0.4</td>
+<td>API level 15, NDK 8</td>
+</tr>
+<tr>
+<td>Ice Cream Sandwich</td>
+<td>4.0.1 - 4.0.2</td>
+<td>API level 14, NDK 7</td>
+</tr>
+<tr>
+<td>Honeycomb</td>
+<td>3.2.x</td>
+<td>API level 13</td>
+</tr>
+<tr>
+<td>Honeycomb</td>
+<td>3.1</td>
+<td>API level 12, NDK 6</td>
+</tr>
+<tr>
+<td>Honeycomb</td>
+<td>3.0</td>
+<td>API level 11</td>
+</tr>
+<tr>
+<td>Gingerbread</td>
+<td>2.3.3 - 2.3.7</td>
+<td>API level 10</td>
+</tr>
+<tr>
+<td>Gingerbread</td>
+<td>2.3 - 2.3.2</td>
+<td>API level 9, NDK 5</td>
+</tr>
+<tr>
+<td>Froyo</td>
+<td>2.2.x</td>
+<td>API level 8, NDK 4</td>
+</tr>
+<tr>
+<td>Eclair</td>
+<td>2.1</td>
+<td>API level 7, NDK 3</td>
+</tr>
+<tr>
+<td>Eclair</td>
+<td>2.0.1</td>
+<td>API level 6</td>
+</tr>
+<tr>
+<td>Eclair</td>
+<td>2.0</td>
+<td>API level 5</td>
+</tr>
+<tr>
+<td>Donut</td>
+<td>1.6</td>
+<td>API level 4, NDK 2</td>
+</tr>
+<tr>
+<td>Cupcake</td>
+<td>1.5</td>
+<td>API level 3, NDK 1</td>
+</tr>
+<tr>
+<td>(node code name)</td>
+<td>1.1</td>
+<td>API level 2</td>
+</tr>
+<tr>
+<td>(node code name)</td>
+<td>1.0</td>
+<td>API level 1</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -413,8 +548,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.png"
@@ -458,6 +602,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-系统版本对应的-API-等级"><span class="nav-number">1.</span> <span class="nav-text">Android 系统版本对应的 API 等级</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
