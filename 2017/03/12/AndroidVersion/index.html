@@ -113,7 +113,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
     motion: true,
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -133,7 +133,13 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
 
 
 
-  <title> 关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择 | 金梧的个人博客 </title>
+  <title>
+  
+
+  
+    关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择 | 金梧的个人博客
+  
+</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -168,7 +174,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -209,7 +215,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -219,7 +225,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -229,7 +235,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -239,7 +245,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -263,120 +269,17 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/12/AndroidVersion/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="金梧">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="金梧的个人博客">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T00:00:00+08:00">
-                2017-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a class="cloud-tie-join-count" href="/2017/03/12/AndroidVersion/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>相信大家都已经转移到 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 上开发 Android App 了，但可能对于其构建工具 <a href="https://developer.android.com/studio/build/index.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">Gradle</a> 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。</p>
+      <p>相信大家都已经转移到 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 上开发 Android App 了，但可能对于其构建工具 <a href="https://developer.android.com/studio/build/index.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">Gradle</a> 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。</p>
 <h1 id="Android-系统版本对应的-API-等级"><a href="#Android-系统版本对应的-API-等级" class="headerlink" title="Android 系统版本对应的 API 等级"></a>Android 系统版本对应的 API 等级</h1><p>直接上表，是从官网上找到的：<a href="http://source.android.com/source/build-numbers.html" target="_blank" rel="external">http://source.android.com/source/build-numbers.html</a></p>
 <table>
 <thead>
@@ -540,71 +443,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
 <p>声明：以下部分内容摘自<a href="https://medium.com/google-developers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd" target="_blank" rel="external">Picking your compileSdkVersion, minSdkVersion, and targetSdkVersion</a></p>
 </blockquote>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-        
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/02/13/EnvironmentConstructionForMac/" rel="next" title="在 Mac 上搭建属于自己的博客">
-                <i class="fa fa-chevron-left"></i> 在 Mac 上搭建属于自己的博客
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-        
-<script>
-  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-
-      
-    </div>
+    
   </div>
 
 
@@ -638,17 +477,8 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.png"
@@ -664,7 +494,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">日志</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -675,7 +505,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">分类</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -702,22 +532,6 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-系统版本对应的-API-等级"><span class="nav-number">1.</span> <span class="nav-text">Android 系统版本对应的 API 等级</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#compileSdkVersion"><span class="nav-number">2.</span> <span class="nav-text">compileSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#minSdkVersion"><span class="nav-number">3.</span> <span class="nav-text">minSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#targetSdkVersion"><span class="nav-number">4.</span> <span class="nav-text">targetSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle-和-SDK-版本"><span class="nav-number">5.</span> <span class="nav-text">Gradle 和 SDK 版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -743,11 +557,11 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
@@ -824,10 +638,6 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 
@@ -881,10 +691,120 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
   
 
   
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gjsjvK0i8vzDEpcnAQVSSXuM-gzGzoHsz", "SsrbbC9trJjTlGP9WmIANilE");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
   
+
+  
+
+
+// 插入代码，显示文章访问量
 
 </body>
 </html>
