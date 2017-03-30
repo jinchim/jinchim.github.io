@@ -95,7 +95,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。
 Android 系统版本对应的 API 等级直接上表，是从官网上找到的：http://source.an">
-<meta property="og:updated_time" content="2017-03-30T06:56:38.000Z">
+<meta property="og:updated_time" content="2017-03-30T07:05:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 compileSdkVersion，minSdkVersion 和 targetSdkVersion 的选择">
 <meta name="twitter:description" content="相信大家都已经转移到 Android Studio 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。
@@ -324,7 +324,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
       
 
       
-        <p>相信大家都已经转移到 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 上开发 Android App 了，但可能对于其构建工具 Gradle 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。</p>
+        <p>相信大家都已经转移到 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 上开发 Android App 了，但可能对于其构建工具 <a href="https://developer.android.com/studio/build/index.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">Gradle</a> 不熟悉，对其中的 compileSdkVersion，minSdkVersion 和 targetSdkVersion 更加傻傻分不清楚，那么本篇文章将给你理清这些东西。</p>
 <h1 id="Android-系统版本对应的-API-等级"><a href="#Android-系统版本对应的-API-等级" class="headerlink" title="Android 系统版本对应的 API 等级"></a>Android 系统版本对应的 API 等级</h1><p>直接上表，是从官网上找到的：<a href="http://source.android.com/source/build-numbers.html" target="_blank" rel="external">http://source.android.com/source/build-numbers.html</a></p>
 <table>
 <thead>
@@ -457,10 +457,6 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
 </tr>
 </tbody>
 </table>
-<p><br></p>
-<blockquote>
-<p>声明：以下内容摘自<a href="https://medium.com/google-developers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd" target="_blank" rel="external">Picking your compileSdkVersion, minSdkVersion, and targetSdkVersion</a></p>
-</blockquote>
 <h1 id="compileSdkVersion"><a href="#compileSdkVersion" class="headerlink" title="compileSdkVersion"></a>compileSdkVersion</h1><p>compileSdkVersion 告诉 Gradle 用哪个 Android SDK 版本编译你的应用。使用任何新添加的 API 就需要使用对应等级的 Android SDK。</p>
 <p>需要强调的是修改 compileSdkVersion 不会改变运行时的行为。当你修改了 compileSdkVersion 的时候，可能会出现新的编译警告、编译错误，但新的 compileSdkVersion 不会被包含到 APK 中：它纯粹只是在编译的时候使用。</p>
 <p>因此强烈推荐总是使用最新的 SDK 进行编译。在现有代码上使用新的编译检查可以获得很多好处，避免新弃用的 API ，并且为使用新的 API 做好准备。</p>
@@ -476,6 +472,21 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
 <p>targetSdkVersion 所暗示的许多行为变化都记录在 <a href="https://developer.android.com/reference/android/os/Build.VERSION_CODES.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">VERSION_CODES</a> 文档中了，但是所有恐怖的细节也都列在每次发布的平台亮点中了，在这个 <a href="https://developer.android.com/guide/topics/manifest/uses-sdk-element.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog#ApiLevels" target="_blank" rel="external">API Level</a> 表中可以方便地找到相应的链接。</p>
 <p>例如，<a href="https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">Android 6.0 变化文档</a>中谈了 target 为 API 23 时会如何把你的应用转换到<a href="https://android-developers.googleblog.com/2015/08/building-better-apps-with-runtime.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">运行时权限模型</a>上，<a href="https://developer.android.com/about/versions/android-4.4.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog#Behaviors" target="_blank" rel="external">Android 4.4</a> 行为变化阐述了 target 为 API 19 及以上时使用 <a href="https://developer.android.com/reference/android/app/AlarmManager.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog#set%28int,%20long,%20android.app.PendingIntent%29" target="_blank" rel="external">set()</a> 和 <a href="https://developer.android.com/reference/android/app/AlarmManager.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog#setRepeating%28int,%20long,%20long,%20android.app.PendingIntent%29" target="_blank" rel="external">setRepeating()</a> 设置 alarm 会有怎样的行为变化。</p>
 <p>由于某些行为的变化对用户是非常明显的（<a href="https://android-developers.googleblog.com/2012/01/say-goodbye-to-menu-button.html?utm_campaign=adp_series_sdkversion_010616&amp;utm_source=medium&amp;utm_medium=blog" target="_blank" rel="external">弃用的 menu 按钮</a>，运行时权限等），所以将 target 更新为最新的 SDK 是所有应用都应该优先处理的事情。但这不意味着你一定要使用所有新引入的功能，也不意味着你可以不做任何测试就盲目地更新 targetSdkVersion，请一定在更新 targetSdkVersion 之前做测试！你的用户会感谢你的。</p>
+<h1 id="Gradle-和-SDK-版本"><a href="#Gradle-和-SDK-版本" class="headerlink" title="Gradle 和 SDK 版本"></a>Gradle 和 SDK 版本</h1><p>所以设置正确的 compileSdkVersion, minSdkVersion 和 targetSdkVersion 很重要。如你所想， Gradle 和 Android Studio 都在构建系统中集成了它们。在你的模块的 build.gradle 文件中（也可以在 Android Studio 的项目结构选项中）设置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">  compileSdkVersion <span class="number">23</span></div><div class="line">  buildToolsVersion <span class="string">"23.0.1"</span></div><div class="line">  </div><div class="line">  defaultConfig &#123;</div><div class="line">    applicationId <span class="string">"com.example.test"</span></div><div class="line">    minSdkVersion <span class="number">7</span></div><div class="line">    targetSdkVersion <span class="number">23</span></div><div class="line">    versionCode <span class="number">1</span></div><div class="line">    versionName <span class="string">"1.0"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编译时用到的 compileSdkVersion 是和构建工具版本一起设置的 Android 设置之一。其他两个稍有不同，他们在构建变体(build variant)的那里声明。defaultConfig 是所有构建变体的基础，也是设置这些默认值的地方。你可以想象在一个更复杂的系统中，应用的某些版本可能会有不同的 minSdkVersion。</p>
+<p>minSdkVersion 和 targetSdkVersion 与 compileSdkVersion 的另一个不同之处是它们会被包含进最终的 APK 文件中，如果你查看生成的 AndroidManifest.xml 文件，你会看到类似下面这样的标签：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-sdk</span> <span class="attr">android:targetSdkVersion</span>=<span class="string">"23"</span> <span class="attr">android:minSdkVersion</span>=<span class="string">"7"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>如果你在 AndroidManifest.xml 文件中手工设置，你会发现 Gradle 在构建时会忽略它们（尽管其它构建系统可能会明确依赖它们）。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>如果你按照上面示例那样配置，你会发现这三个值的关系是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">minSdkVersion &lt;= targetSdkVersion &lt;= compileSdkVersion</div></pre></td></tr></table></figure>
+<p>这种直觉是合理的，如果 compileSdkVersion 是你的最大值，minSdkVersion 是最小值，那么最大值必需至少和最小值一样大且 target 必需在二者之间。</p>
+<p>理想上，在稳定状态下三者的关系应该更像这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">minSdkVersion (lowest possible) &lt;= targetSdkVersion == compileSdkVersion (latest SDK)</div></pre></td></tr></table></figure>
+<p>用较低的 minSdkVersion 来覆盖最大的人群，用最新的 SDK 设置 target 和 compile 来获得最好的外观和行为。</p>
+<blockquote>
+<p>声明：以下部分内容摘自<a href="https://medium.com/google-developers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd" target="_blank" rel="external">Picking your compileSdkVersion, minSdkVersion, and targetSdkVersion</a></p>
+</blockquote>
 
       
     </div>
@@ -631,7 +642,7 @@ Android 系统版本对应的 API 等级直接上表，是从官网上找到的�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-系统版本对应的-API-等级"><span class="nav-number">1.</span> <span class="nav-text">Android 系统版本对应的 API 等级</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#compileSdkVersion"><span class="nav-number">2.</span> <span class="nav-text">compileSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#minSdkVersion"><span class="nav-number">3.</span> <span class="nav-text">minSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#targetSdkVersion"><span class="nav-number">4.</span> <span class="nav-text">targetSdkVersion</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-系统版本对应的-API-等级"><span class="nav-number">1.</span> <span class="nav-text">Android 系统版本对应的 API 等级</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#compileSdkVersion"><span class="nav-number">2.</span> <span class="nav-text">compileSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#minSdkVersion"><span class="nav-number">3.</span> <span class="nav-text">minSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#targetSdkVersion"><span class="nav-number">4.</span> <span class="nav-text">targetSdkVersion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle-和-SDK-版本"><span class="nav-number">5.</span> <span class="nav-text">Gradle 和 SDK 版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li></ol></div>
             
 
           </div>
