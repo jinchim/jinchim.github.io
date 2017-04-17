@@ -87,14 +87,14 @@
 
 
 
-<meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
+<meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
+准备工作首先当然是要按照需求把SDK开发出来，这里我使用 And">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 和 Unity 交互及各种神坑">
 <meta property="og:url" content="http://yoursite.com/2017/04/14/AndroidForUnity/index.html">
 <meta property="og:site_name" content="金梧的个人博客">
-<meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
+<meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
+准备工作首先当然是要按照需求把SDK开发出来，这里我使用 And">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img02.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img03.png">
@@ -104,11 +104,11 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img07.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img08.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img09.png">
-<meta property="og:updated_time" content="2017-04-17T07:47:46.000Z">
+<meta property="og:updated_time" content="2017-04-17T08:15:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
-<meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
+<meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
+准备工作首先当然是要按照需求把SDK开发出来，这里我使用 And">
 <meta name="twitter:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 
 
@@ -375,7 +375,7 @@
       
 
       
-        <p>最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。</p>
+        <p>最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。</p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>首先当然是要按照需求把SDK开发出来，这里我使用 Android Studio 作为开发环境。</p>
 <p>由于最终 SDK 是要和 Unity 对接的，所以我把 SDK 的所有功能都单独放在了一个库模块中，主模块仅仅是调用，如图（关于 Android 开发不作介绍）：</p>
 <img src="/2017/04/14/AndroidForUnity/img01.png" alt="img01.png" title="">
