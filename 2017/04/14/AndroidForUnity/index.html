@@ -97,7 +97,7 @@
 准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img02.png">
-<meta property="og:updated_time" content="2017-04-17T05:04:46.000Z">
+<meta property="og:updated_time" content="2017-04-17T05:08:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
@@ -382,8 +382,8 @@
 <img src="/2017/04/14/AndroidForUnity/img02.png" alt="img02.png" title="">
 <p><br>至此，基本的配置完成，现在需要写代码让 Unity 和 Android “亲热”起来！</p>
 <h1 id="Unity-和-Android-交互"><a href="#Unity-和-Android-交互" class="headerlink" title="Unity 和 Android 交互"></a>Unity 和 Android 交互</h1><h2 id="Unity-调用-Android"><a href="#Unity-调用-Android" class="headerlink" title="Unity 调用 Android"></a>Unity 调用 Android</h2><p>还记得之前写的一个继承自 UnityPlayerActivity 的类吧，这个类在 Unity 中代表的就是当前的界面，所以交互代码应该都是由这个类提供。</p>
-<p>现在我们来写第一个方法，让 Unity 调用 Android 的 Toast 工具类的方法，在屏幕上打印信息。写下如下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">u_showToast</span><span class="params">(<span class="keyword">final</span> String text)</span> </span>&#123;</div><div class="line">	runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			Toast.makeText(Unity3dActivity.<span class="keyword">this</span>,text,Toast.LENGTH_SHORT).show();</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在我们来写第一个方法，让 Unity 调用 Android 的 Toast 工具类的方法，在屏幕上显示一条信息。在 Unity3dActivity.java 中写下如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">u_showToast</span><span class="params">(<span class="keyword">final</span> String text)</span> </span>&#123;</div><div class="line">  runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">		Toast.makeText(Unity3dActivity.<span class="keyword">this</span>,text,Toast.LENGTH_SHORT).show();</div><div class="line">	 &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
