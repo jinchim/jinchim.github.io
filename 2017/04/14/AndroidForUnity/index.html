@@ -97,7 +97,7 @@
 准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img02.png">
-<meta property="og:updated_time" content="2017-04-17T04:00:49.000Z">
+<meta property="og:updated_time" content="2017-04-17T04:44:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
@@ -380,6 +380,7 @@
 <h2 id="导出-SDK-模块的-aar"><a href="#导出-SDK-模块的-aar" class="headerlink" title="导出 SDK 模块的 aar"></a>导出 SDK 模块的 aar</h2><p>当上面的流程配置完成后，编译 Android 项目，成功后可在模块下的 build/outputs/aar 目录，找到相应的 aar 包，一般来说会有 debug 版和 release版（区别在于代码压缩、混淆和应用签名），这里我直接使用了 zhai8_sdk-release.aar。</p>
 <h1 id="Unity-导入-SDK-模块"><a href="#Unity-导入-SDK-模块" class="headerlink" title="Unity 导入 SDK 模块"></a>Unity 导入 SDK 模块</h1><p>创建一个 Unity 工程，在其 Assets 目录下建立 Plugins/Android 目录，用于专门存放 Android相关的文件，将需要拷贝的文件拷贝至 Plugins/Android 目录下，如下图：</p>
 <img src="/2017/04/14/AndroidForUnity/img02.png" alt="img02.png" title="">
+<p><br></p>
 
       
     </div>
