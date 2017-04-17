@@ -87,19 +87,19 @@
 
 
 
-<meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人进行交互和交互过程中遇到的问题分享给大家。
+<meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
 准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 和 Unity 交互及各种神坑">
 <meta property="og:url" content="http://yoursite.com/2017/04/14/AndroidForUnity/index.html">
 <meta property="og:site_name" content="金梧的个人博客">
-<meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人进行交互和交互过程中遇到的问题分享给大家。
+<meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
 准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
-<meta property="og:updated_time" content="2017-04-17T02:57:04.000Z">
+<meta property="og:updated_time" content="2017-04-17T03:06:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
-<meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人进行交互和交互过程中遇到的问题分享给大家。
+<meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
 准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
 <meta name="twitter:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 
@@ -367,12 +367,13 @@
       
 
       
-        <p>最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人进行交互和交互过程中遇到的问题分享给大家。</p>
+        <p>最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。</p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>首先当然是要按照需求把SDK开发出来，这里我使用 Android Studio 作为开发环境。</p>
 <p>由于最终 SDK 是要和 Unity 对接的，所以我把 SDK 的所有功能都单独放在了一个库模块中，主模块仅仅是调用，如图（关于 Android 开发不作介绍）：</p>
 <img src="/2017/04/14/AndroidForUnity/img01.png" alt="img01.png" title="">
-<p><br><br>对 SDK 的功能进行测试，当本地测试通过后进行下一步。</p>
-<h1 id="关于-Unity"><a href="#关于-Unity" class="headerlink" title="关于 Unity"></a>关于 Unity</h1>
+<p><br>对 SDK 的功能进行测试，当本地测试通过后进行下一步。</p>
+<h1 id="Unity-的简单介绍"><a href="#Unity-的简单介绍" class="headerlink" title="Unity 的简单介绍"></a>Unity 的简单介绍</h1><p><a href="https://unity3d.com/cn/" target="_blank" rel="external">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC等多个平台的版本。</p>
+
       
     </div>
 
@@ -552,7 +553,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-Unity"><span class="nav-number">2.</span> <span class="nav-text">关于 Unity</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-的简单介绍"><span class="nav-number">2.</span> <span class="nav-text">Unity 的简单介绍</span></a></li></ol></div>
             
 
           </div>
