@@ -96,7 +96,7 @@
 <meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
 准备工作首先当然是要按照需求把SDK开发出来，这里我使用 Andro">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
-<meta property="og:updated_time" content="2017-04-17T03:06:27.000Z">
+<meta property="og:updated_time" content="2017-04-17T03:39:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
@@ -372,7 +372,10 @@
 <p>由于最终 SDK 是要和 Unity 对接的，所以我把 SDK 的所有功能都单独放在了一个库模块中，主模块仅仅是调用，如图（关于 Android 开发不作介绍）：</p>
 <img src="/2017/04/14/AndroidForUnity/img01.png" alt="img01.png" title="">
 <p><br>对 SDK 的功能进行测试，当本地测试通过后进行下一步。</p>
-<h1 id="Unity-的简单介绍"><a href="#Unity-的简单介绍" class="headerlink" title="Unity 的简单介绍"></a>Unity 的简单介绍</h1><p><a href="https://unity3d.com/cn/" target="_blank" rel="external">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC等多个平台的版本。</p>
+<h1 id="在-SDK-中导入-Unity-模块"><a href="#在-SDK-中导入-Unity-模块" class="headerlink" title="在 SDK 中导入 Unity 模块"></a>在 SDK 中导入 Unity 模块</h1><h2 id="Unity-简单介绍"><a href="#Unity-简单介绍" class="headerlink" title="Unity 简单介绍"></a>Unity 简单介绍</h2><p><a href="https://unity3d.com/cn/" target="_blank" rel="external">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC等多个平台的版本。</p>
+<h2 id="使用-unity-jar"><a href="#使用-unity-jar" class="headerlink" title="使用 unity.jar"></a>使用 unity.jar</h2><p>Unity 官方给 Android 提供了一个开发包，用以 Android 和 Unity 交互。</p>
+<p>在 Android 工程中引入 unity.jar，编写一个 Activity（需要继承自 UnityPlayerActivity，我的类名是 Unity3dActivity ），这个类便是之后 Android 和 Unity 交互的核心,并且还需要在 AndroidManifest.xml 中写入如下的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">	<span class="attr">android:name</span>=<span class="string">"com.gempoll.zhai8_sdk.sdk.Unity3dActivity"</span></div><div class="line">    <span class="attr">android:configChanges</span>=<span class="string">"fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"</span>&gt;</div><div class="line">   	    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">       		<span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">       		<span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">"unityplayer.UnityActivity"</span></div><div class="line">            <span class="attr">android:value</span>=<span class="string">"true"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -553,7 +556,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-的简单介绍"><span class="nav-number">2.</span> <span class="nav-text">Unity 的简单介绍</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在-SDK-中导入-Unity-模块"><span class="nav-number">2.</span> <span class="nav-text">在 SDK 中导入 Unity 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity-简单介绍"><span class="nav-number">2.1.</span> <span class="nav-text">Unity 简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-unity-jar"><span class="nav-number">2.2.</span> <span class="nav-text">使用 unity.jar</span></a></li></ol></li></ol></div>
             
 
           </div>
