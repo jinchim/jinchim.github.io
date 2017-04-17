@@ -103,7 +103,8 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img06.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img07.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img08.png">
-<meta property="og:updated_time" content="2017-04-17T07:12:06.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img09.png">
+<meta property="og:updated_time" content="2017-04-17T07:47:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
@@ -437,6 +438,23 @@
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  jo.Call(<span class="string">"u_setGameObject"</span>, gameObject.name);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTest</span>(<span class="params"><span class="keyword">string</span> msg</span>) </span>&#123;</div><div class="line">  Debug.Log(msg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里首先调用了 Android 提供的 u_setGameObject()，告知 Android 要通知的 GameObject 就是自身，然后写了一个回调函数 onTest()，和 Android 中定义的一样，这样便能接受到 Android 传过来的消息了。</p>
 <p>至此，Android 和 Unity 的基本交互就 OK 了！</p>
+<h1 id="其他坑货"><a href="#其他坑货" class="headerlink" title="其他坑货"></a>其他坑货</h1><p>不要以为到这里就可以地让 Android 和 Unity 快乐地么么哒了，踩坑之路还未结束～</p>
+<h2 id="运行时找不到类"><a href="#运行时找不到类" class="headerlink" title="运行时找不到类"></a>运行时找不到类</h2><p>使用 Android Studio 开发的同学，肯定对 Gradle 非常的喜爱，其中有一项特性就是加载第三方库不需要再去到处找了，直接在 build.gradle 中相应的位置写上对应的包名即可，它的原理是在编译时去下载这些库文件，然后打包进 Apk 中，但是如果以这种方式生成 aar 给 Unity调用，便会在运行时抛出找不到类的错误，如下图：</p>
+<img src="/2017/04/14/AndroidForUnity/img09.png" alt="img09.png" title="">
+<p><br>这里提示我找不到 EventBus 这个类，解决办法是去 Android Studio 工程中寻找对应的库文件（一定要根据工程路径寻找，不能在网上随便下载，否则版本对不上一样报错），然后将库文件拷贝至 Unity 工程中，重新打包则无问题。</p>
+<blockquote>
+<p>坑六：当程序出现找不到某个类的错误时，必然就是某个对应的库文件没有拷贝给 Unity。</p>
+</blockquote>
+<h2 id="SDK-无法使用-ViewPager"><a href="#SDK-无法使用-ViewPager" class="headerlink" title="SDK 无法使用 ViewPager"></a>SDK 无法使用 ViewPager</h2><p>这个原因还未找到，但是只要 SDK 中使用了 ViewPager 程序便会报错（虽然也是找不到类的错误，但拷贝了对应的库文件一样报错），我推测是由于 Unity 编译器还未支持此控件（可能新版本已经支持了）。</p>
+<blockquote>
+<p>坑七：不能使用 ViewPager。</p>
+</blockquote>
+<h2 id="引用第三方-jar-的坑"><a href="#引用第三方-jar-的坑" class="headerlink" title="引用第三方 jar 的坑"></a>引用第三方 jar 的坑</h2><p>如果 SDK 中还需引入第三方 jar，需注意其 jar 中有否含有出 .java 以外的文件（比如我集成夜神 SDK 时，他们将配置信息打包进了 jar 中，同样可用解压软件打开查看），如果有，则需要把那些文件单独再拷贝到 Unity 工程中（原 jar 可以不删除）。</p>
+<blockquote>
+<p>坑八：引用的第三方 jar 若含有非 .java 文件等资源文件，则需单独拷贝。</p>
+</blockquote>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>关于 Android 如何与 Unity 交互已经介绍完了，这些都是本人在开发过程中遇到的问题，希望对大家有点用处。</p>
+<p>PS：纯原创，转载说明出处，谢谢！</p>
 
       
     </div>
@@ -617,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在-SDK-中导入-Unity-模块"><span class="nav-number">2.</span> <span class="nav-text">在 SDK 中导入 Unity 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity-简单介绍"><span class="nav-number">2.1.</span> <span class="nav-text">Unity 简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-unity-jar"><span class="nav-number">2.2.</span> <span class="nav-text">使用 unity.jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出-SDK-模块的-aar"><span class="nav-number">2.3.</span> <span class="nav-text">导出 SDK 模块的 aar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在Unity-中导入-SDK-模块"><span class="nav-number">3.</span> <span class="nav-text">在Unity 中导入 SDK 模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-和-Android-交互"><span class="nav-number">4.</span> <span class="nav-text">Unity 和 Android 交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity-调用-Android"><span class="nav-number">4.1.</span> <span class="nav-text">Unity 调用 Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-向-Unity-发送消息"><span class="nav-number">4.2.</span> <span class="nav-text">Android 向 Unity 发送消息</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在-SDK-中导入-Unity-模块"><span class="nav-number">2.</span> <span class="nav-text">在 SDK 中导入 Unity 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity-简单介绍"><span class="nav-number">2.1.</span> <span class="nav-text">Unity 简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-unity-jar"><span class="nav-number">2.2.</span> <span class="nav-text">使用 unity.jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出-SDK-模块的-aar"><span class="nav-number">2.3.</span> <span class="nav-text">导出 SDK 模块的 aar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在Unity-中导入-SDK-模块"><span class="nav-number">3.</span> <span class="nav-text">在Unity 中导入 SDK 模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-和-Android-交互"><span class="nav-number">4.</span> <span class="nav-text">Unity 和 Android 交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity-调用-Android"><span class="nav-number">4.1.</span> <span class="nav-text">Unity 调用 Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-向-Unity-发送消息"><span class="nav-number">4.2.</span> <span class="nav-text">Android 向 Unity 发送消息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他坑货"><span class="nav-number">5.</span> <span class="nav-text">其他坑货</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时找不到类"><span class="nav-number">5.1.</span> <span class="nav-text">运行时找不到类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDK-无法使用-ViewPager"><span class="nav-number">5.2.</span> <span class="nav-text">SDK 无法使用 ViewPager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用第三方-jar-的坑"><span class="nav-number">5.3.</span> <span class="nav-text">引用第三方 jar 的坑</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
