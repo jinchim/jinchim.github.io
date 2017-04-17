@@ -88,13 +88,13 @@
 
 
 <meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把SDK开发出来，这里我使用 And">
+准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 和 Unity 交互及各种神坑">
 <meta property="og:url" content="http://yoursite.com/2017/04/14/AndroidForUnity/index.html">
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把SDK开发出来，这里我使用 And">
+准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img02.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img03.png">
@@ -104,11 +104,11 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img07.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img08.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img09.png">
-<meta property="og:updated_time" content="2017-04-17T08:15:22.000Z">
+<meta property="og:updated_time" content="2017-04-17T08:20:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把SDK开发出来，这里我使用 And">
+准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
 <meta name="twitter:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 
 
@@ -376,11 +376,11 @@
 
       
         <p>最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>首先当然是要按照需求把SDK开发出来，这里我使用 Android Studio 作为开发环境。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>首先当然是要按照需求把 SDK 开发出来，这里我使用 Android Studio 作为开发环境。</p>
 <p>由于最终 SDK 是要和 Unity 对接的，所以我把 SDK 的所有功能都单独放在了一个库模块中，主模块仅仅是调用，如图（关于 Android 开发不作介绍）：</p>
 <img src="/2017/04/14/AndroidForUnity/img01.png" alt="img01.png" title="">
 <p><br>对 SDK 的功能进行测试，当本地测试通过后进行下一步。</p>
-<h1 id="在-SDK-中导入-Unity-模块"><a href="#在-SDK-中导入-Unity-模块" class="headerlink" title="在 SDK 中导入 Unity 模块"></a>在 SDK 中导入 Unity 模块</h1><h2 id="Unity-简单介绍"><a href="#Unity-简单介绍" class="headerlink" title="Unity 简单介绍"></a>Unity 简单介绍</h2><p><a href="https://unity3d.com/cn/" target="_blank" rel="external">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC等多个平台的版本。</p>
+<h1 id="在-SDK-中导入-Unity-模块"><a href="#在-SDK-中导入-Unity-模块" class="headerlink" title="在 SDK 中导入 Unity 模块"></a>在 SDK 中导入 Unity 模块</h1><h2 id="Unity-简单介绍"><a href="#Unity-简单介绍" class="headerlink" title="Unity 简单介绍"></a>Unity 简单介绍</h2><p><a href="https://unity3d.com/cn/" target="_blank" rel="external">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC 等多个平台的版本。</p>
 <h2 id="使用-unity-jar"><a href="#使用-unity-jar" class="headerlink" title="使用 unity.jar"></a>使用 unity.jar</h2><p>Unity 官方给 Android 提供了一个开发包（下载地址自行百度吧～），用以 Android 和 Unity 交互。</p>
 <p>在 Android 工程中引入 unity.jar，编写一个 Activity（需要继承自 UnityPlayerActivity，我的类名是 Unity3dActivity ），这个类便是之后 Android 和 Unity 交互的核心，并且还需要在 AndroidManifest.xml 中写入如下的配置：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">  <span class="attr">android:name</span>=<span class="string">"com.gempoll.zhai8_sdk.sdk.Unity3dActivity"</span></div><div class="line">  <span class="attr">android:configChanges</span>=<span class="string">"fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"</span>&gt;</div><div class="line">  <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">    <span class="attr">android:name</span>=<span class="string">"unityplayer.UnityActivity"</span></div><div class="line">    <span class="attr">android:value</span>=<span class="string">"true"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure>
@@ -401,7 +401,7 @@
 <blockquote>
 <p>坑二：参数只能是字符串，传入其他类型会使方法失效。</p>
 </blockquote>
-<p>接着，可以使用 Unity 打包 Apk了，要记得对 Player Settings 进行配置，要注意包名、版本号、最小编译版本等信息要和 AndroidManifest.xml 中的一致，如下图：</p>
+<p>接着，可以使用 Unity 打包 Apk了，要记得对 Player Settings 进行配置，注意包名、版本号、最小编译版本等信息要和 AndroidManifest.xml 中的一致，如下图：</p>
 <img src="/2017/04/14/AndroidForUnity/img03.png" alt="img03.png" title="">
 <p><br>接着点击 build 进行打包，你会发现报错了！</p>
 <img src="/2017/04/14/AndroidForUnity/img04.png" alt="img04.png" title="">
@@ -425,7 +425,7 @@
 <img src="/2017/04/14/AndroidForUnity/img08.png" alt="img08.png" title="">
 <p><br>这个错误一看就是环境配置的问题，原因是 SDK 指定的编译工具的版本在 Unity 打包时找不到，一般是因为 Unity 版本太老了，这里给大家一个<a href="http://www.androiddevtools.cn" target="_blank" rel="external">下载地址</a>，下载最新的 SDK Tools，拷贝到 /sdk/tools 下面即可。</p>
 <blockquote>
-<p>坑五：aar 中指定的编译工具版本一定要和 Unity指定的一致！</p>
+<p>坑五：aar 中指定的编译工具版本一定要和 Unity 指定的一致！</p>
 </blockquote>
 <p>当环境弄好之后再次打包，终于成功打包了！安装 Apk 后打开，会成功的打印一条“test”的消息，这里我就不贴图了。</p>
 <h2 id="Android-向-Unity-发送消息"><a href="#Android-向-Unity-发送消息" class="headerlink" title="Android 向 Unity 发送消息"></a>Android 向 Unity 发送消息</h2><p>现在我们可以随意在 Unity 中调用 Android 代码了，但是还有一些应用场景需要 Android 向 Unity 发送消息（在 Java 中称为回调），该怎么做呢？</p>
