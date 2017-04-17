@@ -102,7 +102,8 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img05.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img06.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img07.png">
-<meta property="og:updated_time" content="2017-04-17T06:36:20.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img08.png">
+<meta property="og:updated_time" content="2017-04-17T06:48:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发SDK和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
@@ -419,7 +420,13 @@
 <blockquote>
 <p>坑四：删除 aar 中 AndroidManifest.xml 中的信息，但不能删除其本身！</p>
 </blockquote>
-<p>重新生成 aar，然后拷贝拷贝至 Unity 工程，打包等待。</p>
+<p>重新生成 aar，然后拷贝拷贝至 Unity 工程，打包等待。这里公司的电脑打包成功了，但我自己的笔记本还是报错，如下图：</p>
+<img src="/2017/04/14/AndroidForUnity/img08.png" alt="img08.png" title="">
+<p><br>这个错误一看就是环境配置的问题，原因是 SDK 指定的编译工具的版本在 Unity 打包时找不到，一般是因为 Unity 版本太老了，这里给大家一个<a href="http://www.androiddevtools.cn" target="_blank" rel="external">下载地址</a>，下载最新的就好了。</p>
+<blockquote>
+<p>坑五：aar 中指定的编译工具版本一定要和 Unity指定的一致！</p>
+</blockquote>
+<p>当环境弄好之后再次打包，终于成功打包了！安装 Apk 后打开，会成功的打印一条“test”的消息，这里我就不贴图了。</p>
 
       
     </div>
