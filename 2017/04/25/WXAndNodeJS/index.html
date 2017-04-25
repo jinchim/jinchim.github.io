@@ -97,7 +97,7 @@
 学习新东西还是比较有激情的吧，很快把 Node.js、Express（一个基于 Node.js 的 Web 应用框架）和 MongoDB 都大概学了一下，恰好这个时间我准备开始健身，就想着做一个小应用来管理自己每天的">
 <meta property="og:image" content="http://yoursite.com/2017/04/25/WXAndNodeJS/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/25/WXAndNodeJS/img02.png">
-<meta property="og:updated_time" content="2017-04-25T09:43:15.000Z">
+<meta property="og:updated_time" content="2017-04-25T09:54:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零到一：微信小程序 + Node.js + MongoDB + VPS(Linux)">
 <meta name="twitter:description" content="这段时间由于公司没有项目做，确实闲出蛋了，于是给自己找了点事做。听说最近 Node.js 火得不行，我也赶一波潮流，照着官方网站学习了下，对于有编程基础的同学来说入门还是比较容易的。
@@ -415,6 +415,7 @@
 <h2 id="安装-MongoDB"><a href="#安装-MongoDB" class="headerlink" title="安装 MongoDB"></a>安装 MongoDB</h2><p>安装 MongoDB 很简单,去<a href="https://www.mongodb.com/download-center#community" target="_blank" rel="external">官网</a>下载对应系统的 MongoDB 压缩包解压即可。</p>
 <h2 id="启动-MongoDB"><a href="#启动-MongoDB" class="headerlink" title="启动 MongoDB"></a>启动 MongoDB</h2><p>刚安装上是没办法使用 MongoDB 的，需要启动服务。打开终端，运行如下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mongod --dbpath (你的数据路径) --logpath (你的日志路径)</div></pre></td></tr></table></figure>
+<p>这里容易发生出现两个小问题。一个是启动失败返回 100 错误码，这里需要把 /data 目录下的 mongod.lock 删除，再次启动；另一个是默认端口被占用，那么修改端口或者结束占用端口的进程便可以解决！</p>
 <blockquote>
 <p>端口号也可以指定，使用 -port 命令，MongoDB 的默认端口号是 27017。</p>
 </blockquote>
