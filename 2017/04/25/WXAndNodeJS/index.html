@@ -1,0 +1,917 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="微信小程序,Node.js,Express,MongoDB,Linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这段时间由于公司没有项目做，确实闲出蛋了，于是给自己找了点事做。听说最近 Node.js 火得不行，我也赶一波潮流，照着官方网站学习了下，对于有编程基础的同学来说入门还是比较容易的。
+学习新东西还是比较有激情的吧，很快把 Node.js、Express（一个基于 Node.js 的 Web 应用框架）和 MongoDB 都大概学了一下，恰好这个时间我准备开始健身，就想着做一个小应用来管理自己每天的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零到一：微信小程序 + Node.js + MongoDB + VPS(Linux)">
+<meta property="og:url" content="http://yoursite.com/2017/04/25/WXAndNodeJS/index.html">
+<meta property="og:site_name" content="金梧的个人博客">
+<meta property="og:description" content="这段时间由于公司没有项目做，确实闲出蛋了，于是给自己找了点事做。听说最近 Node.js 火得不行，我也赶一波潮流，照着官方网站学习了下，对于有编程基础的同学来说入门还是比较容易的。
+学习新东西还是比较有激情的吧，很快把 Node.js、Express（一个基于 Node.js 的 Web 应用框架）和 MongoDB 都大概学了一下，恰好这个时间我准备开始健身，就想着做一个小应用来管理自己每天的">
+<meta property="og:image" content="http://yoursite.com/2017/04/25/WXAndNodeJS/img01.png">
+<meta property="og:image" content="http://yoursite.com/2017/04/25/WXAndNodeJS/img02.png">
+<meta property="og:updated_time" content="2017-04-25T09:26:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零到一：微信小程序 + Node.js + MongoDB + VPS(Linux)">
+<meta name="twitter:description" content="这段时间由于公司没有项目做，确实闲出蛋了，于是给自己找了点事做。听说最近 Node.js 火得不行，我也赶一波潮流，照着官方网站学习了下，对于有编程基础的同学来说入门还是比较容易的。
+学习新东西还是比较有激情的吧，很快把 Node.js、Express（一个基于 Node.js 的 Web 应用框架）和 MongoDB 都大概学了一下，恰好这个时间我准备开始健身，就想着做一个小应用来管理自己每天的">
+<meta name="twitter:image" content="http://yoursite.com/2017/04/25/WXAndNodeJS/img01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/25/WXAndNodeJS/"/>
+
+
+
+
+
+  <title> 从零到一：微信小程序 + Node.js + MongoDB + VPS(Linux) | 金梧的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ee3399eb7801b18cbaed85f20678873b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">金梧的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/25/WXAndNodeJS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="金梧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="金梧的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                从零到一：微信小程序 + Node.js + MongoDB + VPS(Linux)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-25T00:00:00+08:00">
+                2017-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/04/25/WXAndNodeJS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/04/25/WXAndNodeJS/" class="leancloud_visitors" data-flag-title="从零到一：微信小程序 + Node.js + MongoDB + VPS(Linux)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这段时间由于公司没有项目做，确实闲出蛋了，于是给自己找了点事做。听说最近 Node.js 火得不行，我也赶一波潮流，照着<a href="https://nodejs.org/" target="_blank" rel="external">官方网站</a>学习了下，对于有编程基础的同学来说入门还是比较容易的。</p>
+<p>学习新东西还是比较有激情的吧，很快把 Node.js、Express（一个基于 Node.js 的 Web 应用框架）和 MongoDB 都大概学了一下，恰好这个时间我准备开始健身，就想着做一个小应用来管理自己每天的饮食、训练和身体数据。由于考虑到本地 App 需要适应不同平台，前端选择了最新微信新出的一个公众服务平台：小程序。</p>
+<p>好了，随便唠两句，还是进入正题吧，一个一个来。</p>
+<h1 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h1><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>首先得在电脑上安装 Node.js 环境，直接去<a href="https://nodejs.org/en/download/" target="_blank" rel="external">官网</a>下载就好了，注意最好下载最近的 LTS 版本，比较稳定，我的版本是 v6.10.1。</p>
+<p>关于 Node.js 的基本知识和用法就不介绍了，<a href="http://nodejs.cn/api/" target="_blank" rel="external">中文官网</a>上都有，直接上 Express。</p>
+<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><a href="http://www.expressjs.com.cn" target="_blank" rel="external">Express</a> 是一个简洁而灵活的 Node.js Web 应用框架, 提供了一系列强大特性帮助你创建各种 Web 应用，和丰富的 HTTP 工具。使用 Express 可以快速地搭建一个完整功能的网站，它有一套健壮的特性，可用于开发单页、多页和混合Web应用。</p>
+<h3 id="安装-Express-代码生成器"><a href="#安装-Express-代码生成器" class="headerlink" title="安装 Express 代码生成器"></a>安装 Express 代码生成器</h3><p>对于一个 Express 应用来说，其代码结构大致一样（框架的统一性），所以官方随着 Express 一起也发布了一个代码生成器，打开终端，输入如下命令安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g express-generator</div></pre></td></tr></table></figure>
+<blockquote>
+<p>NPM 是随同 Node.js 一起安装的包管理工具，可以解决 Node.js 代码部署的很多问题，通俗地讲就是用来下载 Node.js 代码库的。</p>
+</blockquote>
+<p>上面的 -g 参数表示全局安装，即在任何目录下都可以使用 express-generator 模块。</p>
+<h3 id="新建一个工程"><a href="#新建一个工程" class="headerlink" title="新建一个工程"></a>新建一个工程</h3><p>打开终端，输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ express <span class="_">-e</span> fighting          // <span class="_">-e</span> 是指定页面渲染模版为 ejs，默认为 jade</div></pre></td></tr></table></figure>
+<p>你会发现在当前目录下生成了一个 figting 目录，这是 Express 给我们生成了一个基本的框架代码，哇，刺激！下面咱们来看看这些框架代码有什么东西。</p>
+<h3 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h3><p>直接通过文本编辑器打开，可以看到如下目录结构：</p>
+<img src="/2017/04/25/WXAndNodeJS/img01.png" alt="img01.png" title="">
+<p><br>app.js：工程的主控文件，或者说是进行全局配置的地方。</p>
+<p>package.json：存储着工程的信息及模块依赖，当在 dependencies 中添加依赖的模块时，运行 npm install，NPM 会检查当前目录下的 package.json，并自动安装所有指定的模块。</p>
+<p>node_modules：存放 package.json 中安装的模块，当你在 package.json 添加依赖的模块并安装后，存放在这个文件夹下。</p>
+<p>public：存放 image、css、js 等文件。</p>
+<p>routes：存放路由文件。</p>
+<p>views：存放视图文件或者说模版文件。</p>
+<p>bin：存放可执行文件。</p>
+<h4 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h4><p>直接贴上所有代码，解释都放在注释中了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> favicon = <span class="built_in">require</span>(<span class="string">'serve-favicon'</span>);</div><div class="line"><span class="keyword">var</span> logger = <span class="built_in">require</span>(<span class="string">'morgan'</span>);</div><div class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>);</div><div class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 引用路由文件</span></div><div class="line"><span class="keyword">var</span> index = <span class="built_in">require</span>(<span class="string">'./routes/index'</span>);</div><div class="line"><span class="keyword">var</span> users = <span class="built_in">require</span>(<span class="string">'./routes/users'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 初始化一个 express 实例</span></div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"></div><div class="line"><span class="comment">// 设置视图文件夹为 views，__dirname 为全局变量，存储当前正在执行的脚本所在的目录（这里也可以用"./views"）</span></div><div class="line">app.set(<span class="string">'views'</span>, path.join(__dirname, <span class="string">'views'</span>));</div><div class="line"></div><div class="line"><span class="comment">// 设置视图渲染模版为 ejs</span></div><div class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'ejs'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 各种中间件的添加</span></div><div class="line">app.use(logger(<span class="string">'dev'</span>));</div><div class="line">app.use(bodyParser.json());</div><div class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;));</div><div class="line">app.use(cookieParser());</div><div class="line"></div><div class="line"><span class="comment">// 设置 public 文件夹为存放静态文件的目录</span></div><div class="line">app.use(express.static(path.join(__dirname, <span class="string">'public'</span>)));</div><div class="line"></div><div class="line"><span class="comment">// 路由控制器</span></div><div class="line">app.use(<span class="string">'/'</span>, index);</div><div class="line">app.use(<span class="string">'/users'</span>, users);</div><div class="line"></div><div class="line"><span class="comment">// 捕获 404 错误，并转发到错误处理器</span></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> err = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Not Found'</span>);</div><div class="line">  err.status = <span class="number">404</span>;</div><div class="line">  next(err);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 开发环境下的错误处理器，将错误信息渲染 error 模版并显示到浏览器中</span></div><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">err, req, res, next</span>) </span>&#123;</div><div class="line">  res.locals.message = err.message;</div><div class="line">  res.locals.error = req.app.get(<span class="string">'env'</span>) === <span class="string">'development'</span> ? err : &#123;&#125;;</div><div class="line">  res.status(err.status || <span class="number">500</span>);</div><div class="line">  res.render(<span class="string">'error'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = app;</div></pre></td></tr></table></figure>
+<h3 id="bin-www"><a href="#bin-www" class="headerlink" title="bin/www"></a>bin/www</h3><p>这个 www 文件可以理解为程序的入口，同样直接看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/usr/bin/env node</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'../app'</span>);</div><div class="line"><span class="keyword">var</span> debug = <span class="built_in">require</span>(<span class="string">'debug'</span>)(<span class="string">'fighting:server'</span>);</div><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 创建 http 服务器，并监听 3000 端口</span></div><div class="line"><span class="keyword">var</span> port = normalizePort(process.env.PORT || <span class="string">'3000'</span>);</div><div class="line">app.set(<span class="string">'port'</span>, port);</div><div class="line"><span class="keyword">var</span> server = http.createServer(app);</div><div class="line">server.listen(port);</div><div class="line"></div><div class="line"><span class="comment">// 事件监听</span></div><div class="line">server.on(<span class="string">'error'</span>, onError);</div><div class="line">server.on(<span class="string">'listening'</span>, onListening);</div><div class="line"></div><div class="line"><span class="comment">// 是否在运行时指定端口</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">normalizePort</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> port = <span class="built_in">parseInt</span>(val, <span class="number">10</span>);</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">isNaN</span>(port)) &#123;</div><div class="line">    <span class="keyword">return</span> val;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (port &gt;= <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">return</span> port;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 错误处理</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onError</span>(<span class="params">error</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (error.syscall !== <span class="string">'listen'</span>) &#123;</div><div class="line">    <span class="keyword">throw</span> error;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> bind = <span class="keyword">typeof</span> port === <span class="string">'string'</span></div><div class="line">    ? <span class="string">'Pipe '</span> + port</div><div class="line">    : <span class="string">'Port '</span> + port;</div><div class="line">  <span class="keyword">switch</span> (error.code) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'EACCES'</span>:</div><div class="line">      <span class="built_in">console</span>.error(bind + <span class="string">' requires elevated privileges'</span>);</div><div class="line">      process.exit(<span class="number">1</span>);</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'EADDRINUSE'</span>:</div><div class="line">      <span class="built_in">console</span>.error(bind + <span class="string">' is already in use'</span>);</div><div class="line">      process.exit(<span class="number">1</span>);</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">      <span class="keyword">throw</span> error;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 监听端口成功</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onListening</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> addr = server.address();</div><div class="line">  <span class="keyword">var</span> bind = <span class="keyword">typeof</span> addr === <span class="string">'string'</span></div><div class="line">    ? <span class="string">'pipe '</span> + addr</div><div class="line">    : <span class="string">'port '</span> + addr.port;</div><div class="line">  debug(<span class="string">'Listening on '</span> + bind);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="routes-index-js"><a href="#routes-index-js" class="headerlink" title="routes/index.js"></a>routes/index.js</h4><p>路由文件，来看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> router = express.Router();</div><div class="line"></div><div class="line"><span class="comment">// 路径是"/"，渲染一个名叫 index 的文件作为返回内容（目录在 app.js 中指定过），并且传递了一个 title 参数</span></div><div class="line"><span class="comment">// 如果是想返回 json 数据，这里改成 res.json(&#123;&#125;); 即可</span></div><div class="line"><span class="comment">// 这里是 get 请求，如果是提供给客户端使用的 Api 接口，也可以使用 post 请求</span></div><div class="line"></div><div class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">  res.render(<span class="string">'index'</span>, &#123; <span class="attr">title</span>: <span class="string">'Express'</span> &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = router;</div><div class="line"></div><div class="line"><span class="comment">// 关于请求参数的解释：</span></div><div class="line"><span class="comment">// req.query ： 处理 get 请求，获取 get 请求参数</span></div><div class="line"><span class="comment">// req.params ： 处理 /:xxx 形式的 get 或 post 请求，获取请求参数</span></div><div class="line"><span class="comment">// req.body ： 处理 post 请求，获取 post 请求体</span></div><div class="line"><span class="comment">// req.param() ： 处理 get 和 post 请求，但查找优先级由高到低为 req.params → req.body → req.query</span></div></pre></td></tr></table></figure>
+<h4 id="views-index-ejs"><a href="#views-index-ejs" class="headerlink" title="views/index.ejs"></a>views/index.ejs</h4><p>前端真正显示的内容，这里很简单，和一般的 Html 基本相似，只是使用了 &lt;%= title% &gt; 这个东西，其实这就是把之前传递过来的 title 变量全部替换成了 Express 而已。</p>
+<blockquote>
+<p> 关于模版引擎不作详解，这篇博客的 Node.js 重点在后台服务。</p>
+</blockquote>
+<h3 id="启动第一个工程"><a href="#启动第一个工程" class="headerlink" title="启动第一个工程"></a>启动第一个工程</h3><p>打开终端，cd 到 fighting 目录，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm start</div></pre></td></tr></table></figure>
+<p>如果控制台没有报什么错误的话，就已经启动成功了。打开浏览器，输入 <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a>，可以看到如下页面：</p>
+<img src="/2017/04/25/WXAndNodeJS/img02.png" alt="img02.png" title="">
+<p><br>到了这里，写一些基于 Express 的路由接口应该没什么问题了，但是一般的后台服务程序不可能一直把数据存在内存里面吧，所以运用数据库进行数据的管理是必不可少的，下面咱们来看看和 Node.js 形影不离的 MongoDB～～～</p>
+<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>MongoDB 是一个基于分布式文件存储的 NoSQL（非关系型数据库）的一种，由 C++ 语言编写，旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。MongoDB 支持的数据结构非常松散，是类似 json 的 bjson 格式，因此可以存储比较复杂的数据类型。MongoDB 最大的特点是他支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。</p>
+<p>MongoDB 没有关系型数据库中行和表的概念，不过有类似的文档和集合的概念。文档是 MongoDB 最基本的单位，每个文档都会以唯一的 _id 标识，文档的属性为 key/value 的键值对形式，文档内可以嵌套另一个文档，因此可以存储比较复杂的数据类型。集合是许多文档的总和，一个数据库可以有多个集合，一个集合可以有多个文档。</p>
+<p>下面是一个 MongoDB 文档的示例：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&#123; </div><div class="line">  "_id" : ObjectId( "4f7fe8432b4a1077a7c551e8" ),</div><div class="line">  "name" : "nswbmw",</div><div class="line">  "age" : 22,</div><div class="line">  "email" : [ "xxx@126.com", "xxx@gmail.com" ],</div><div class="line">  "family" : &#123;</div><div class="line">    "mother" : &#123; ... &#125;,</div><div class="line">    "father" : &#123; ... &#125;,</div><div class="line">    "sister : &#123;</div><div class="line">      "name" : "miaomiao",</div><div class="line">      "age" : 27,</div><div class="line">      "email" : "xxx@163.com",</div><div class="line">      "family" : &#123;</div><div class="line">        "mother" : &#123; ... &#125;,</div><div class="line">        "father" : &#123; ... &#125;,</div><div class="line">        "brother : &#123; ... &#125;,</div><div class="line">        "husband" : &#123; ... &#125;,</div><div class="line">        "son" : &#123; ... &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>更多有关 MongoDB 的知识可以查阅：<a href="http://www.mongodb.org/" target="_blank" rel="external">http://www.mongodb.org/</a>。</p>
+<h2 id="安装-MongoDB"><a href="#安装-MongoDB" class="headerlink" title="安装 MongoDB"></a>安装 MongoDB</h2><p>安装 MongoDB 很简单,去<a href="https://www.mongodb.com/download-center#community" target="_blank" rel="external">官网</a>下载对应系统的 MongoDB 压缩包解压即可。</p>
+<h2 id="启动-MongoDB"><a href="#启动-MongoDB" class="headerlink" title="启动 MongoDB"></a>启动 MongoDB</h2><p>刚安装上是没办法使用 MongoDB 的，需要启动服务。打开终端，运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mongod --dbpath (你的数据路径) --logpath (你的日志路径)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>端口号也可以指定，使用 -port 命令，MongoDB 的默认端口号是 27017。</p>
+</blockquote>
+<p>这里一般不会有什么问题，运行后再执行 Mongo，会发现进入了 Mongo 的命令控制台，这样表明启动成功啦！</p>
+<p>启动后，当然是要玩儿了！这里列一些比较常用的命令吧：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ db                                   // 查看当前使用的数据库名称，默认是 <span class="built_in">test</span></div><div class="line"></div><div class="line">$ show dbs                             // 列出当前连接的 MongoDB 的所有数据库名称</div><div class="line"></div><div class="line">$ use (dbname)                         // 切换数据库，若数据库不存在，则创建</div><div class="line"></div><div class="line">$ db.showCollections                   // 列出当前数据库存在的集合名称</div><div class="line"></div><div class="line">$ db.(collection).find().pretty()      // 列出指定集合名称的所有文档数据，并且格式化</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用命令行可能对于某些人不太习惯（事实上大部分人都不会习惯），这里我使用了一款客户端软件 MongoChef，非常好用！</p>
+</blockquote>
+<h2 id="使用-Mongoose-模块"><a href="#使用-Mongoose-模块" class="headerlink" title="使用 Mongoose 模块"></a>使用 Mongoose 模块</h2><p>对于 Node.js 操作 MongoDB 有很多框架，这里推荐一个 Mongoose，特点是简单好用，给一个<a href="https://cnodejs.org/topic/504b4924e2b84515770103dd" target="_blank" rel="external">入门网站</a>。</p>
+<h3 id="配置-mongoose-模块"><a href="#配置-mongoose-模块" class="headerlink" title="配置 mongoose 模块"></a>配置 mongoose 模块</h3><p>使用前当然是要安装 mongoose 模块了，cd 到 fighting 目录，输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install mongoose --save    // --save 指定安装时同时写入 package.json 的 dependencies 标签下</div></pre></td></tr></table></figure>
+<h3 id="写代码1"><a href="#写代码1" class="headerlink" title="写代码1"></a>写代码1</h3><p>安装后当然是要使用了，在 fighting 目录下建立一个目录 models，专门存放所有和数据库有关的对象。首先写一个连接对象，名为 db.js，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line">mongoose.Promise = <span class="built_in">Promise</span>;</div><div class="line"></div><div class="line"><span class="comment">// 连接数据库，数据库名为 fighting，端口号为 27017</span></div><div class="line"><span class="keyword">var</span> db = mongoose.createConnection(<span class="string">'mongodb://localhost:27017/fighting'</span>);</div><div class="line"><span class="comment">// 监听连接的情况，并在控制台输出响应内容</span></div><div class="line">db.on(<span class="string">'error'</span>, (error) =&gt; <span class="built_in">console</span>.log(<span class="string">'连接数据库错误 =&gt; '</span> + error));</div><div class="line">db.on(<span class="string">'open'</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'连接数据库成功'</span>));</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = db;</div></pre></td></tr></table></figure>
+<p>上面中的代码有一个 Promise，简单解释下，这是 ES6 用来传递异步操作消息对象，简单点说就是可以把耗时操作放在后台线程中执行，给一个学习网站吧——<a href="http://www.jianshu.com/p/063f7e490e9a" target="_blank" rel="external">Javascript 中的神器——Promise</a>。</p>
+<p>接着咱们创建一个实体对象 user.js，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line"><span class="keyword">var</span> db = <span class="built_in">require</span>(<span class="string">'./db'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> userSchema = <span class="keyword">new</span> mongoose.Schema(</div><div class="line">  &#123;</div><div class="line">    <span class="attr">username</span>: <span class="built_in">String</span>,</div><div class="line">    <span class="attr">password</span>: <span class="built_in">String</span>,</div><div class="line">    <span class="attr">head</span>: <span class="built_in">String</span>,</div><div class="line">    <span class="attr">nick</span>: <span class="built_in">String</span>,</div><div class="line">    <span class="attr">registerTime</span>: <span class="built_in">String</span>,</div><div class="line">    <span class="attr">lastLoginTime</span>: <span class="built_in">String</span></div><div class="line">  &#125;</div><div class="line">);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = db.model(<span class="string">'user'</span>, userSchema);</div></pre></td></tr></table></figure>
+<p>很简单，就是指定名为 user 文档中的字段和类型，然后导出这个模块。</p>
+<blockquote>
+<p>mongoose 有一个有趣的东西，就是你指定的文档名他会变为复数形式，比如这里的 user 会变成 users！</p>
+</blockquote>
+<h3 id="写代码2"><a href="#写代码2" class="headerlink" title="写代码2"></a>写代码2</h3><p>连接对象和实体对象都创建完成了，接下来是不是要对其进行增删改查了呢？</p>
+<h4 id="增"><a href="#增" class="headerlink" title="增"></a>增</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义一个要插入的数据库对象</span></div><div class="line"><span class="keyword">var</span> userEntity = &#123;<span class="attr">username</span>: <span class="string">'admin'</span>, <span class="attr">password</span>: <span class="string">'123456'</span>, <span class="attr">nick</span>: <span class="string">'管理员'</span>&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用 user 模块并插入</span></div><div class="line"><span class="keyword">var</span> userModel = <span class="built_in">require</span>(<span class="string">'../models/user'</span>);</div><div class="line">userModel.create(userEntity).then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</div><div class="line">	<span class="comment">// 这里返回的 user 便是插入成功的对象</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="删"><a href="#删" class="headerlink" title="删"></a>删</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 删除条件，这里指定 username</span></div><div class="line"><span class="keyword">var</span> userEntity = &#123;<span class="attr">username</span>: username&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用 user 模块并删除</span></div><div class="line"><span class="keyword">var</span> userModel = <span class="built_in">require</span>(<span class="string">'../models/user'</span>);</div><div class="line">userModel.delete(userEntity).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">	<span class="comment">// 删除成功</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="改"><a href="#改" class="headerlink" title="改"></a>改</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义修改的数据库对象</span></div><div class="line"><span class="keyword">var</span> userEntity = &#123;<span class="attr">username</span>: <span class="string">'admin'</span>, <span class="attr">password</span>: <span class="string">'123'</span>, <span class="attr">nick</span>: <span class="string">'金梧'</span>&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用 user 模块并更新</span></div><div class="line"><span class="keyword">var</span> userModel = <span class="built_in">require</span>(<span class="string">'../models/user'</span>);</div><div class="line">userModel.update(userEntity).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">	<span class="comment">// 更新成功</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="查"><a href="#查" class="headerlink" title="查"></a>查</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义修改的数据库对象，这里指定 username</span></div><div class="line"><span class="keyword">var</span> userEntity = &#123;<span class="attr">username</span>: <span class="string">'admin'</span>&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用 user 模块</span></div><div class="line"><span class="keyword">var</span> userModel = <span class="built_in">require</span>(<span class="string">'../models/user'</span>);</div><div class="line"><span class="comment">// 找列表</span></div><div class="line">userModel.find(userEntity).then(<span class="function"><span class="params">users</span> =&gt;</span> &#123;</div><div class="line">	<span class="comment">// 这里返回的 users 便是查找成功的对象</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">// 找唯一对象</span></div><div class="line">userModel.findOne(userEntity).then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</div><div class="line">	<span class="comment">// 这里返回的 user 便是查找成功的对象</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>关于 MongoDB 以及如何在 Node.js 中使用就简单介绍到这里，如果有兴趣，去官网看文档是最好的方式。</p>
+<h1 id="未完待续～～～～～～～～～～～～～～"><a href="#未完待续～～～～～～～～～～～～～～" class="headerlink" title="未完待续～～～～～～～～～～～～～～"></a>未完待续～～～～～～～～～～～～～～</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微信小程序/" rel="tag"># 微信小程序</a>
+          
+            <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+          
+            <a href="/tags/Express/" rel="tag"># Express</a>
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/14/AndroidForUnity/" rel="next" title="Android 和 Unity 交互及各种神坑">
+                <i class="fa fa-chevron-left"></i> Android 和 Unity 交互及各种神坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.png"
+               alt="金梧" />
+          <p class="site-author-name" itemprop="name">金梧</p>
+           
+              <p class="site-description motion-element" itemprop="description">带着敬畏之心前进。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">1.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境配置"><span class="nav-number">1.1.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Express"><span class="nav-number">1.2.</span> <span class="nav-text">Express</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Express-代码生成器"><span class="nav-number">1.2.2.</span> <span class="nav-text">安装 Express 代码生成器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建一个工程"><span class="nav-number">1.2.3.</span> <span class="nav-text">新建一个工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工程结构"><span class="nav-number">1.2.4.</span> <span class="nav-text">工程结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#app-js"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">app.js</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bin-www"><span class="nav-number">1.2.5.</span> <span class="nav-text">bin/www</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#routes-index-js"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">routes/index.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#views-index-ejs"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">views/index.ejs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动第一个工程"><span class="nav-number">1.2.6.</span> <span class="nav-text">启动第一个工程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB"><span class="nav-number">2.</span> <span class="nav-text">MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介-1"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-MongoDB"><span class="nav-number">2.2.</span> <span class="nav-text">安装 MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动-MongoDB"><span class="nav-number">2.3.</span> <span class="nav-text">启动 MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Mongoose-模块"><span class="nav-number">2.4.</span> <span class="nav-text">使用 Mongoose 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-mongoose-模块"><span class="nav-number">2.4.1.</span> <span class="nav-text">配置 mongoose 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写代码1"><span class="nav-number">2.4.2.</span> <span class="nav-text">写代码1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写代码2"><span class="nav-number">2.4.3.</span> <span class="nav-text">写代码2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增"><span class="nav-number">2.4.3.1.</span> <span class="nav-text">增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删"><span class="nav-number">2.4.3.2.</span> <span class="nav-text">删</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改"><span class="nav-number">2.4.3.3.</span> <span class="nav-text">改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查"><span class="nav-number">2.4.3.4.</span> <span class="nav-text">查</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#未完待续～～～～～～～～～～～～～～"><span class="nav-number">3.</span> <span class="nav-text">未完待续～～～～～～～～～～～～～～</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">金梧</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "c674d0a32c27459b8acc797658ef9abe",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gjsjvK0i8vzDEpcnAQVSSXuM-gzGzoHsz", "SsrbbC9trJjTlGP9WmIANilE");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+
+
+
+</body>
+</html>
