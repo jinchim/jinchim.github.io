@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img07.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img08.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img09.png">
-<meta property="og:updated_time" content="2017-05-22T06:08:48.000Z">
+<meta property="og:updated_time" content="2017-05-26T01:59:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
 <meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
@@ -453,9 +453,9 @@
 <blockquote>
 <p>坑八：引用的第三方 jar 若含有非 .java 文件等资源文件，则需单独拷贝。</p>
 </blockquote>
-<h2 id="第三方资源"><a href="#第三方资源" class="headerlink" title="第三方资源"></a>第三方资源</h2><p>如果 SDK 中需要引入第三方资源，如 assets 资源等，则需要把 aar 中的 assets 删除，否则会出现冲突，原理和 unity.jar 一样。</p>
+<h2 id="第三方资源"><a href="#第三方资源" class="headerlink" title="第三方资源"></a>第三方资源</h2><p>如果 SDK 中引入了第三方资源，如 assets 资源等，则需要把 aar 中的 assets 删除，并且把 assets 拷贝至 Unity 工程中。</p>
 <blockquote>
-<p>坑九：引用第三方资源时，需把 aar 文件中对应的资源删除。</p>
+<p>坑九：引用第三方资源时，需把 aar 文件中对应的资源删除，然后单独拷贝。</p>
 </blockquote>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>关于 Android 如何与 Unity 交互已经介绍完了，这些都是本人在开发过程中遇到的问题，希望对大家有点用处。</p>
 <p>PS：纯原创，转载说明出处，谢谢！</p>
