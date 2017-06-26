@@ -1,0 +1,852 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OpenCV," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过一个软件比赛，那时候是真开心啊，毕竟因为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探 OpenCV 3.2 物体识别：级联分类器">
+<meta property="og:url" content="http://yoursite.com/2017/06/26/opencv/index.html">
+<meta property="og:site_name" content="金梧的个人博客">
+<meta property="og:description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过一个软件比赛，那时候是真开心啊，毕竟因为">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img01.png">
+<meta property="og:updated_time" content="2017-06-26T11:13:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初探 OpenCV 3.2 物体识别：级联分类器">
+<meta name="twitter:description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过一个软件比赛，那时候是真开心啊，毕竟因为">
+<meta name="twitter:image" content="http://yoursite.com/2017/06/26/opencv/img01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/26/opencv/"/>
+
+
+
+
+
+  <title> 初探 OpenCV 3.2 物体识别：级联分类器 | 金梧的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ee3399eb7801b18cbaed85f20678873b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">金梧的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/opencv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="金梧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="金梧的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                初探 OpenCV 3.2 物体识别：级联分类器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00+08:00">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/06/26/opencv/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/06/26/opencv/" class="leancloud_visitors" data-flag-title="初探 OpenCV 3.2 物体识别：级联分类器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过一个软件比赛，那时候是真开心啊，毕竟因为那个比赛在系里横着走，而且当时交了第一个喜欢的女朋友，简直让人膨胀……</p>
+<p>扯远了，当时比赛我们弄了一个基于摄像头识别的软件，初衷是因为我爱看哈利波特，希望能通过摄像头实现用手势变魔法的功能，于是就用到了 OpenCV。当时的底层算法是我的另一个队友写的，所以我基本对 OpenCV 不懂，现在突发奇想把 OpenCV 从头到尾学了一遍，这里主要把基于 OpenCV 级联分类器如何识别目标物体的过程记录下来，希望能给需要的人一点帮助。</p>
+<h1 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h1><p>OpenCV 是一个跨平台的计算机视觉库，它实现了图像处理和计算机视觉方面的很多通用算法，是一个非常强大的开源库。</p>
+<p>具体应该怎么实现物体的识别呢？我们应该知道，我们在计算机上看到的图像都是由一颗颗的像素点组成的，而每颗像素点的基本属性就是其颜色值，经过标准的定义，就可以用一个计算机数据结构的数据来表示一副图像，这样的标准有很多，我们经常听到的 RGB 三通道（红、绿、蓝三原色可以组成任意颜色）就是最常用的标准。OpenCV 研究的就是如何利用各种算法对像素点进行转换，达到不同的效果。而物体识别需要的过程比较繁琐，概括起来就是：</p>
+<ul>
+<li>取样本，包括正样本（包含需要识别物体的图片）和负样本（不包含正样本的图片）</li>
+<li>对正样本进行预处理，包括图片降燥、灰度化、直方图均衡化、边缘检测、轮廓提取等</li>
+<li>提取正样本中比较明显的特征，量化为计算机数据</li>
+<li>使用机器学习算法学习样本数据，使应用程序具有对数据分类（两类或多类）的能力，这一过程称为机器训练</li>
+<li>使用训练好的模型对目标物体进行检测</li>
+</ul>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="下载开发工具包"><a href="#下载开发工具包" class="headerlink" title="下载开发工具包"></a>下载开发工具包</h2><p>首先去 <a href="http://opencv.org/releases.html" target="_blank" rel="external">OpenCV</a> 的官网下载 Windows 平台的开发包，这里主要是需要使用它的两个应用程序。然后本人还下载了对应的 Android 平台的开发包，因为我最终是需要在 Android 上执行。</p>
+<h2 id="准备正样本"><a href="#准备正样本" class="headerlink" title="准备正样本"></a>准备正样本</h2><p>对于刚性物体，比如汽车 logo，只需要一张正面的亮度足够的图片即可，因为 OpenCV 的算法可以对一张图片进行各种旋转操作，从而产生大量的样本；而非刚性物体，比如人脸，需要自行准备大量的图片，数量越多越好。</p>
+<blockquote>
+<p>正样本的图片应该是经过处理的、尺寸统一的图片，尽量让目标物体充满图片，也就是背景越少越好，而且背景色要统一。</p>
+</blockquote>
+<h2 id="准备负样本"><a href="#准备负样本" class="headerlink" title="准备负样本"></a>准备负样本</h2><p>负样本需要在机器训练中使用，其数量是越多越好，可以是任意的图片，只要不包含目标物体即可，这里我准备了将近 500M 的图片，真正使用时还是发现少了，建议一般至少需要 2G 的图片，可以从网上下载各种素材包，或者从一段视频中截取图片。</p>
+<h1 id="训练分类器"><a href="#训练分类器" class="headerlink" title="训练分类器"></a>训练分类器</h1><h2 id="找到自带的程序"><a href="#找到自带的程序" class="headerlink" title="找到自带的程序"></a>找到自带的程序</h2><p>准备样本是一个繁琐且漫长的过程，如果想要分类器取得好的效果，样本数量一定要尽量多。样本准备就绪之后，就可以开始训练了。</p>
+<p>找到之前下载好的开发工具包，在 /opencv/build/x64/vc14/bin/ 目录下，有一些程序可供我们进行机器训练，如下图：</p>
+<img src="/2017/06/26/opencv/img01.png" alt="img01.png" title="">
+<p>我们需要其中的 opencv_createsamples.exe 和 opencv_traincascade.exe 两个程序，前者是用来创建正样本描述文件的，后者是用来进行机器训练的，当然，记得把需要的 dll 文件拷贝。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/Algorithm/" rel="next" title="常用基础算法总结">
+                <i class="fa fa-chevron-left"></i> 常用基础算法总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.png"
+               alt="金梧" />
+          <p class="site-author-name" itemprop="name">金梧</p>
+           
+              <p class="site-description motion-element" itemprop="description">带着敬畏之心前进。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原理简介"><span class="nav-number">1.</span> <span class="nav-text">原理简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载开发工具包"><span class="nav-number">2.1.</span> <span class="nav-text">下载开发工具包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备正样本"><span class="nav-number">2.2.</span> <span class="nav-text">准备正样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备负样本"><span class="nav-number">2.3.</span> <span class="nav-text">准备负样本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练分类器"><span class="nav-number">3.</span> <span class="nav-text">训练分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#找到自带的程序"><span class="nav-number">3.1.</span> <span class="nav-text">找到自带的程序</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">金梧</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "c674d0a32c27459b8acc797658ef9abe",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gjsjvK0i8vzDEpcnAQVSSXuM-gzGzoHsz", "SsrbbC9trJjTlGP9WmIANilE");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+
+
+
+</body>
+</html>
