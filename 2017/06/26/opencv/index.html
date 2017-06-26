@@ -95,7 +95,7 @@
 <meta property="og:description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过的一个软件比赛，那时候是真开心啊，毕竟仗">
 <meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img02.jpg">
-<meta property="og:updated_time" content="2017-06-26T11:41:19.000Z">
+<meta property="og:updated_time" content="2017-06-26T11:57:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初探 OpenCV 3.2 物体识别：级联分类器">
 <meta name="twitter:description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过的一个软件比赛，那时候是真开心啊，毕竟仗">
@@ -380,16 +380,21 @@
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="下载开发工具包"><a href="#下载开发工具包" class="headerlink" title="下载开发工具包"></a>下载开发工具包</h2><p>首先去 <a href="http://opencv.org/releases.html" target="_blank" rel="external">OpenCV</a> 的官网下载 Windows 平台的开发包，这里主要是需要使用它的两个应用程序。本人还下载了对应的 Android 平台的开发包，因为我最终要在 Android 上执行。</p>
 <h2 id="准备正样本"><a href="#准备正样本" class="headerlink" title="准备正样本"></a>准备正样本</h2><p>对于刚性物体，比如汽车 logo，只需要一张正面的亮度足够的图片即可，因为 OpenCV 的算法可以对一张图片进行各种旋转操作，从而产生大量的样本；而非刚性物体，比如人脸，需要自行准备大量的图片，数量越多越好。</p>
 <blockquote>
-<p>正样本的图片应该是经过处理的、尺寸统一的图片，尽量让目标物体充满图片，也就是背景越少越好，而且背景色要统一。</p>
+<p>正样本的图片应该是经过处理的、尺寸统一的小图片，大小控制在 20 * 20 左右，尽量让目标物体充满图片，也就是背景越少越好，而且背景色要统一。</p>
 </blockquote>
 <h2 id="准备负样本"><a href="#准备负样本" class="headerlink" title="准备负样本"></a>准备负样本</h2><p>负样本需要在机器训练中使用，其数量是越多越好，可以是任意的图片，只要不包含目标物体即可，这里我准备了将近 500M 的图片，真正使用时还是发现少了，建议一般至少需要 2G 的图片，可以从网上下载各种素材包，或者从一段视频中截取图片。</p>
 <h2 id="找到自带的程序"><a href="#找到自带的程序" class="headerlink" title="找到自带的程序"></a>找到自带的程序</h2><p>准备样本是一个繁琐且漫长的过程，如果想要分类器取得好的效果，样本数量一定要尽量多。样本准备就绪之后，就可以开始训练了。</p>
 <p>找到之前下载好的开发工具包，在 /opencv/build/x64/vc14/bin/ 目录下，有一些程序可供我们进行机器训练，如下图：</p>
 <img src="/2017/06/26/opencv/img01.png" alt="img01.png" title="">
 <p><br>我们需要其中的 opencv_createsamples.exe 和 opencv_traincascade.exe 两个程序，前者是用来创建正样本描述文件的，后者是用来进行机器训练的，当然，记得把需要的 dll 文件拷贝。</p>
-<h1 id="创建样本描述文件"><a href="#创建样本描述文件" class="headerlink" title="创建样本描述文件"></a>创建样本描述文件</h1><h2 id="正样本描述文件"><a href="#正样本描述文件" class="headerlink" title="正样本描述文件"></a>正样本描述文件</h2><p>对于正样本，需要一个后缀为 .vec 的描述文件，OpenCV 提供了一个程序 opencv_createsamples 用来生成描述文件，我们先来看看这个程序怎么使用。打开 cmd，目录切换到 /opencv/build/x64/vc14/bin/，输入 opencv_createsamples.exe，可以看到如下参数：</p>
+<h1 id="创建样本描述文件"><a href="#创建样本描述文件" class="headerlink" title="创建样本描述文件"></a>创建样本描述文件</h1><h2 id="正样本描述文件"><a href="#正样本描述文件" class="headerlink" title="正样本描述文件"></a>正样本描述文件</h2><p>对于正样本，需要一个后缀为 .vec 的描述文件，OpenCV 提供了一个程序 opencv_createsamples 用来生成描述文件，我们先来看看这个程序怎么使用。打开 cmd，目录切换到 /opencv/build/x64/vc14/bin/，输入 opencv_createsamples.exe，可以看到如下选项：</p>
 <img src="/2017/06/26/opencv/img02.jpg" alt="img02.jpg" title="">
-<p><br></p>
+<ul>
+<li>-info：指定正样本的信息文件，这个文件列出了所有正样本图片的文件名、包含待检物的数量和待检物的范围参数，格式应该是这样的：img01.png 1 0 0 20 20，每一张图片的信息站一行，不能有空行。</li>
+<li>-img：指定正样本的图片文件，对于只有一张图片样本的刚性物体，应该使用这个选项来产生大量样本，注意这个选项和 -info 选项只有一个能生效。</li>
+<li>-vec：指定生成样本描述文件的路径和文件名。</li>
+<li>-bg：</li>
+</ul>
 
       
     </div>
