@@ -94,8 +94,15 @@
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过的一个软件比赛，那时候是真开心啊，毕竟仗">
 <meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img01.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img02.jpg">
-<meta property="og:updated_time" content="2017-06-26T11:57:02.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img02.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img03.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img04.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img05.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img06.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img07.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img08.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/26/opencv/img09.jpg">
+<meta property="og:updated_time" content="2017-06-27T03:52:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初探 OpenCV 3.2 物体识别：级联分类器">
 <meta name="twitter:description" content="这段时间心情不是很美丽。一是觉得在现在这个公司已经提升不了什么能力了，而且想跳个大公司一直吃闭门羹；二来突然思考自己是否能一直在这个行业干下去，顿时有点刚毕业时的迷茫了，这也可能是一月一次的“大姨父”。经过一段时间的思考，觉得还是应该稳扎稳打坚持下去，毕竟哥们儿现在除了这个也没其他技能了（手动流泪~~~）。于是在一个月黑风高的夜晚，突然想起来在大学时期参加过的一个软件比赛，那时候是真开心啊，毕竟仗">
@@ -378,23 +385,79 @@
 </ul>
 <p>这是一般进行物体识别的步骤，其中提取样本特征这一步比较困难，因为要自己找到明显的特征需要较高深的算法，这不是像我这种入门菜鸟所能做到的。没关系，OpenCV 提供了级联分类器这个强大的东东，使用它只需要把图片缩小到足够小直接作为特征训练分类器。</p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="下载开发工具包"><a href="#下载开发工具包" class="headerlink" title="下载开发工具包"></a>下载开发工具包</h2><p>首先去 <a href="http://opencv.org/releases.html" target="_blank" rel="external">OpenCV</a> 的官网下载 Windows 平台的开发包，这里主要是需要使用它的两个应用程序。本人还下载了对应的 Android 平台的开发包，因为我最终要在 Android 上执行。</p>
-<h2 id="准备正样本"><a href="#准备正样本" class="headerlink" title="准备正样本"></a>准备正样本</h2><p>对于刚性物体，比如汽车 logo，只需要一张正面的亮度足够的图片即可，因为 OpenCV 的算法可以对一张图片进行各种旋转操作，从而产生大量的样本；而非刚性物体，比如人脸，需要自行准备大量的图片，数量越多越好。</p>
+<h2 id="准备正样本"><a href="#准备正样本" class="headerlink" title="准备正样本"></a>准备正样本</h2><p>对于刚性物体，比如汽车 logo，只需要一张正面的亮度足够的图片即可，因为 OpenCV 的算法可以对一张图片进行各种旋转操作，从而产生大量的样本；而非刚性物体，比如人脸，需要自行准备大量的图片，数量越多越好，至少有 1000 张图片。这里我就准备了两张 logo 图片，因为我最后只需要识别两个 logo 即可，如图：</p>
+<img src="/2017/06/26/opencv/img01.png" alt="img01.png" title="">
+<p><br></p>
 <blockquote>
-<p>正样本的图片应该是经过处理的、尺寸统一的小图片，大小控制在 20 * 20 左右，尽量让目标物体充满图片，也就是背景越少越好，而且背景色要统一。</p>
+<p>非刚性物体的正样本图片应该是经过处理的、尺寸统一的小图片，大小控制在 20 * 20 左右，尽量让目标物体充满图片，也就是背景越少越好，而且背景色要统一。</p>
 </blockquote>
-<h2 id="准备负样本"><a href="#准备负样本" class="headerlink" title="准备负样本"></a>准备负样本</h2><p>负样本需要在机器训练中使用，其数量是越多越好，可以是任意的图片，只要不包含目标物体即可，这里我准备了将近 500M 的图片，真正使用时还是发现少了，建议一般至少需要 2G 的图片，可以从网上下载各种素材包，或者从一段视频中截取图片。</p>
+<h2 id="准备负样本"><a href="#准备负样本" class="headerlink" title="准备负样本"></a>准备负样本</h2><p>负样本需要在机器训练中使用，其数量是越多越好，可以是任意的图片，只要不包含目标物体即可，这里我准备了将近 500M 的图片，真正使用时还是发现少了，建议一般至少准备 2G 的图片，可以从网上下载各种素材包，或者从一段视频中截取图片。下图是我准备的一部分负样本图片：</p>
+<img src="/2017/06/26/opencv/img02.png" alt="img02.png" title="">
+<p><br></p>
+<blockquote>
+<p>负样本图片的尺寸可以无限大，但是一定不能小于正样本图片的尺寸。</p>
+</blockquote>
 <h2 id="找到自带的程序"><a href="#找到自带的程序" class="headerlink" title="找到自带的程序"></a>找到自带的程序</h2><p>准备样本是一个繁琐且漫长的过程，如果想要分类器取得好的效果，样本数量一定要尽量多。样本准备就绪之后，就可以开始训练了。</p>
 <p>找到之前下载好的开发工具包，在 /opencv/build/x64/vc14/bin/ 目录下，有一些程序可供我们进行机器训练，如下图：</p>
-<img src="/2017/06/26/opencv/img01.png" alt="img01.png" title="">
+<img src="/2017/06/26/opencv/img03.png" alt="img03.png" title="">
 <p><br>我们需要其中的 opencv_createsamples.exe 和 opencv_traincascade.exe 两个程序，前者是用来创建正样本描述文件的，后者是用来进行机器训练的，当然，记得把需要的 dll 文件拷贝。</p>
 <h1 id="创建样本描述文件"><a href="#创建样本描述文件" class="headerlink" title="创建样本描述文件"></a>创建样本描述文件</h1><h2 id="正样本描述文件"><a href="#正样本描述文件" class="headerlink" title="正样本描述文件"></a>正样本描述文件</h2><p>对于正样本，需要一个后缀为 .vec 的描述文件，OpenCV 提供了一个程序 opencv_createsamples 用来生成描述文件，我们先来看看这个程序怎么使用。打开 cmd，目录切换到 /opencv/build/x64/vc14/bin/，输入 opencv_createsamples.exe，可以看到如下选项：</p>
-<img src="/2017/06/26/opencv/img02.jpg" alt="img02.jpg" title="">
+<img src="/2017/06/26/opencv/img04.jpg" alt="img04.jpg" title="">
 <ul>
-<li>-info：指定正样本的信息文件，这个文件列出了所有正样本图片的文件名、包含待检物的数量和待检物的范围参数，格式应该是这样的：img01.png 1 0 0 20 20，每一张图片的信息站一行，不能有空行。</li>
-<li>-img：指定正样本的图片文件，对于只有一张图片样本的刚性物体，应该使用这个选项来产生大量样本，注意这个选项和 -info 选项只有一个能生效。</li>
+<li>-info：指定正样本的信息文件，后缀可以是 .txt、.dat，这个文件列出了所有正样本图片的文件名、包含待检物的数量和待检物的范围参数。比如：samples_1.jpg 1 0 0 20 20 这样，就是指某个正样本是 samples_1.jpg 的图片，图片中有 1个目标区域，区域的左上角坐标为 (0,0)，区域的宽度为 20 像素，长度为 20 像素。注意样本图片和这里的参数相符，每一张图片的信息占一行，不能有空行。</li>
+<li>-img：指定正样本的图片文件，对于只有一张图片样本的刚性物体，应该使用这个选项来产生大量样本，通过一张图片的扭曲形变成多张图片作为样本，注意这个选项和 -info 选项只有一个能生效。</li>
 <li>-vec：指定生成样本描述文件的路径和文件名。</li>
-<li>-bg：</li>
+<li>-bg：样本背景文件，后缀可以是 .txt、.dat，如果省略，则使用 bgcolor 的值填充作为背景，内容就是图片名，每一张图片的信息占一行，不能有空行。</li>
+<li>-num：要创建的正样本的数量，使用 -info 生成时，不要比你准备的正样本图片数量大就行了。</li>
+<li>-bgcolor：创建样本时样本扭曲函数中用来决定像素是有效还是作为背景过滤的基本值，因为操作的是灰度图，所以这个值的范围是 0 ~ 255。</li>
+<li>-bgthresh：决定背景掩码的实际取值，范围为 bgcolor - bgthresh  ~ bgcolor + bgthresh。</li>
+<li>-inv、-randinv：样本生成时，是否需要反向或随机反向，这个在车牌数字识别中比较常用，比如说白底黑字的车牌和蓝底白字的车牌，两者生成的样本是相反的，前者数字是黑色，后者数字是白色。</li>
+<li>-maxidev：一个用于生成前景（有效像素区域）灰度值的常数值，实际样本的前景灰度值会根据这个参数结合随机数产生多种不同的灰度值。</li>
+<li>-maxxangle、-maxyangle、-maxzangle：使用 -img 选项创建样本才会生效，是指对于样本图片的在各方向上扭曲的最大弧度，一般我们直接使用默认值，效果较好。</li>
+<li>-show：样本创建时，是否显示一个窗口显示每一个生成的样本图片。</li>
+<li>-w、-h：要创建样本图片的尺寸，这个参数要和后面训练时的一致，不然会报错。</li>
 </ul>
+<p>基于以上选项，根据需求可以写一个批处理文件执行 opencv_createsamples.exe，这样不用每次设置这么多参数，我的批处理文件是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">opencv_createsamples.exe -img pos/pos1.png -bgcolor 255 -bgthresh 0 -vec pos1.vec -num 1200 -w 20 -h 20 </div><div class="line">pause</div></pre></td></tr></table></figure>
+<p>这里我创建了 1200 个正样本，执行后在当前目录下生成了一个名为 pos1.vec 的文件，这就是我们要的正样本描述文件了。接着我把 pos1.png 换成了 pos2.png，pos1.vec 换成了 pos2.vec 来生成第二张 logo 图片的描述文件，也能正常执行。</p>
+<h2 id="负样本描述文件"><a href="#负样本描述文件" class="headerlink" title="负样本描述文件"></a>负样本描述文件</h2><p>对于负样本，不需要正样本那样麻烦，只需要创建一个后缀为 .txt 或者 .dat 的文本文件，里面的内容就是图片名，每一张图片的信息占一行，不能有空行。由于负样本较多，所以可以写一个小程序用来生成这个文件，非常简单，下图是我的负样本描述文件：</p>
+<img src="/2017/06/26/opencv/img05.png" alt="img05.png" title="">
+<p><br></p>
+<h1 id="开始训练分类器"><a href="#开始训练分类器" class="headerlink" title="开始训练分类器"></a>开始训练分类器</h1><p>一切准备就绪后就可以开始训练分类器了，同样我们先看看程序，打开 cmd，目录切换到 /opencv/build/x64/vc14/bin/，输入 opencv_traincascade.exe，可以看到如下选项：</p>
+<img src="/2017/06/26/opencv/img06.png" alt="img06.png" title="">
+<ul>
+<li>-data：指定最后生成的分类器模型存放的目录。</li>
+<li>-vec：指定正样本描述文件，这个是上个步骤产生的 .vec 文件。</li>
+<li>-bg：指定负样本描述文件，这个是上个步骤产生的 .txt 或 .dat 文件。</li>
+<li>-numPos：在每一级训练中使用的正样本数量。这个参数和之前生成 .vec 时指定 -num 的有关，经过我的各种实验，发现设为 85% 最为合适，各方面都能达到平衡。</li>
+<li>-numNeg：在每一级训练中使用的负样本数量。这个值可以设置大于真正的负样本图像数目，因为程序会自动从负样本图像中切割出和正样本大小一致的图像块，这个参数一般设置为正样本数目的 3 倍。</li>
+<li>-numStages：训练级数，推荐使用 15 ~ 20，级数越高，需要的样本数量越多，当然耗时越长，检测效果越好。</li>
+<li>-precalcValBufSize：缓存大小，用于存储预先计算的特征值，一般使用默认值。</li>
+<li>-precalcIdxBufSize：缓存大小，用于存储预先计算的特征索引，一般使用默认值。</li>
+<li>-baseFormatSave：仅在使用 Haar 特征时有效，如果指定，级联分类器将以老格式存储。</li>
+<li>-numThreads：训练时开启的线程数，一般使用默认值。</li>
+<li>-stageType：级联算法，一般使用默认值。</li>
+<li>-featureType：提取的特征算法，包括 Haar、Lbp 和 Hog（Hog 好像不能用），一般使用 Lbp 特征，速度最快。</li>
+<li>-w、-h：训练的窗口大小，必须和之前创建样本时指定的一致，一般我们设为 20 <em> 20，这个参数太大会影响训练速度，20 </em> 20 是保证好的检测效果的同时能保证速度的一个值。</li>
+<li>-bt：Boosted 分类器的类型，一般使用默认值。</li>
+<li>-minHitRate：最小命中率，即训练目标的准确度。假设每一级训练 1000 个正样本，如果指定为 0.999，那么有一个样本会被认为是不合格的样本。一般根据正样本的数量进行设置，我的原则是让正样本逃出一个作为负样本。</li>
+<li>-maxFlaseAlarmRate：最大虚警（误检率），每层训练到小于这个值时结束，进入下一级训练，一般使用默认值。</li>
+<li>-mode：如果使用 Haar 特征，则这个选项生效，用于指定特征类型。</li>
+</ul>
+<p>理解完了各个选项的含义后，我们可以写出这样一个批处理文件（之后我把 pos1.vec 换成了 pos2.vec 重新训练，从而产生两个模型文件）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">opencv_traincascade.exe -data data -vec pos1.vec -bg neg/neg.txt -numPos 1000 -numNeg 3000 -numStages 15 -featureType LBP -w 20 -h 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5</div><div class="line">pause</div></pre></td></tr></table></figure>
+<p>执行这个批处理文件，如果顺利，会在 /data/ 目录下生成很多文件，如下图：</p>
+<img src="/2017/06/26/opencv/img07.png" alt="img07.png" title="">
+<p><br>这里的 cascade.xml 就是最终训练好的模型文件，其他的都是中间文件。这里会发现一个问题，明明我指定的是训练到 15 级，为什么中间文件只到 stage5 呢？其实我在训练中抛出了这样一个警告：</p>
+<img src="/2017/06/26/opencv/img08.png" alt="img08.png" title="">
+<p><br>这个是告诉你已经达到了需要的虚拟率，训练已经是最好的效果，再往下并不会取的更好的效果。产生这个的原因一般就是样本数量不够，尝试增大正负样本是最好的解决办法。当然，可以通过修改参数（增大 minHitRate 或 减少 maxFlaseAlarmRate）增加训练级数，但不推荐，可能会影响检测效果。</p>
+<h1 id="物体识别"><a href="#物体识别" class="headerlink" title="物体识别"></a>物体识别</h1><p>到了这里，麻烦的步骤可以说已经过去了，只需要使用训练好的文件即可。主要是用到 OpenCV 中的 CascadeClassifier 这个类，我以 Java 为例，将代码和注释贴出来：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 初始化级联分类器，读入 cascade.xml 文件</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">initCascadeClassifier</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    File cascadeFile = <span class="keyword">new</span> File(getDir(<span class="string">"cascade"</span>, Context.MODE_PRIVATE), <span class="string">"cascade.xml"</span>);</div><div class="line">    FileOutputStream os = <span class="keyword">new</span> FileOutputStream(cascadeFile);</div><div class="line">    InputStream is = getResources().openRawResource(R.raw.cascade);</div><div class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</div><div class="line">    <span class="keyword">int</span> bytesRead;</div><div class="line">    <span class="keyword">while</span> ((bytesRead = is.read(buffer)) != -<span class="number">1</span>) &#123;</div><div class="line">      os.write(buffer, <span class="number">0</span>, bytesRead);</div><div class="line">    &#125;</div><div class="line">    is.close();</div><div class="line">    os.close();</div><div class="line">    classifier = <span class="keyword">new</span> CascadeClassifier(cascadeFile.getAbsolutePath());</div><div class="line">    <span class="keyword">if</span> (classifier.empty()) &#123;</div><div class="line">      classifier = <span class="keyword">null</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      cascadeFile.delete();</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 这是摄像头每一帧的回调函数，会把每一帧的 Mat 对象传递出来</span></div><div class="line"><span class="function"><span class="keyword">public</span> Mat <span class="title">onCameraFrame</span><span class="params">(CameraBridgeViewBase.CvCameraViewFrame inputFrame)</span> </span>&#123;</div><div class="line">  <span class="comment">// 获取图像矩阵</span></div><div class="line">  Mat rgba = inputFrame.rgba();</div><div class="line">  Mat gray = inputFrame.gray();</div><div class="line"></div><div class="line">  <span class="comment">// 对灰度图进行直方图均衡化</span></div><div class="line">  Imgproc.equalizeHist(gray, gray);</div><div class="line"></div><div class="line">  <span class="comment">// 进行多尺度检测，检测到的目标矩阵存储在 objects 中</span></div><div class="line">  MatOfRect objects = <span class="keyword">new</span> MatOfRect();</div><div class="line">  <span class="keyword">if</span> (classifier != <span class="keyword">null</span>) &#123;</div><div class="line">	<span class="comment">// 需要注意的是第三、四、六个参数，这些参数非常敏感，对结果的影响也很大，需要自行调整为最佳参数</span></div><div class="line">	<span class="comment">// 第三个参数：表示在前后两次相继的扫描中，搜索窗口的比例系数。默认为 1.1，即每次搜索窗口依次扩大 10%</span></div><div class="line">	<span class="comment">// 第四个参数：表示构成检测目标的相邻矩形的最小个数(默认为 3 个)，如果发现检测的结果太多，可以尝试慢慢增大这个参数，反之减小</span></div><div class="line">	<span class="comment">// 第六个参数：每次检测的最小窗口，设置太小会影响检测速度，太大不容易检测出来</span></div><div class="line">    classifier.detectMultiScale(gray, objects, <span class="number">1.1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="keyword">new</span> Size(<span class="number">100</span>, <span class="number">100</span>), <span class="keyword">new</span> Size());</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 遍历结果画圆，圈出每一个检测到的结果</span></div><div class="line">  Rect[] rects = objects.toArray();</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rects.length; i++) &#123;</div><div class="line">    Imgproc.circle(rgba, <span class="keyword">new</span> Point(rects[i].x + rects[i].width / <span class="number">2</span>, rects[i].y + rects[i].height / <span class="number">2</span>), (rects[i].width / <span class="number">2</span> + rects[i].height / <span class="number">2</span>) / <span class="number">2</span>, <span class="keyword">new</span> Scalar(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">3</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> rgba;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h1><p>直接把我的程序截图贴出来：</p>
+<img src="/2017/06/26/opencv/img09.jpg" alt="img09.jpg" title="">
+
+<p><br>从图中可以看出来识别非常精确，当然这是经过我的各种调参达到的效果。</p>
+<h1 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h1><p>未来会越来越好，技术会越来越好，生活会越来越好，感情会越来越好！</p>
 
       
     </div>
@@ -573,7 +636,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原理简介"><span class="nav-number">1.</span> <span class="nav-text">原理简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载开发工具包"><span class="nav-number">2.1.</span> <span class="nav-text">下载开发工具包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备正样本"><span class="nav-number">2.2.</span> <span class="nav-text">准备正样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备负样本"><span class="nav-number">2.3.</span> <span class="nav-text">准备负样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#找到自带的程序"><span class="nav-number">2.4.</span> <span class="nav-text">找到自带的程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建样本描述文件"><span class="nav-number">3.</span> <span class="nav-text">创建样本描述文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正样本描述文件"><span class="nav-number">3.1.</span> <span class="nav-text">正样本描述文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原理简介"><span class="nav-number">1.</span> <span class="nav-text">原理简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载开发工具包"><span class="nav-number">2.1.</span> <span class="nav-text">下载开发工具包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备正样本"><span class="nav-number">2.2.</span> <span class="nav-text">准备正样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备负样本"><span class="nav-number">2.3.</span> <span class="nav-text">准备负样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#找到自带的程序"><span class="nav-number">2.4.</span> <span class="nav-text">找到自带的程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建样本描述文件"><span class="nav-number">3.</span> <span class="nav-text">创建样本描述文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正样本描述文件"><span class="nav-number">3.1.</span> <span class="nav-text">正样本描述文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负样本描述文件"><span class="nav-number">3.2.</span> <span class="nav-text">负样本描述文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始训练分类器"><span class="nav-number">4.</span> <span class="nav-text">开始训练分类器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#物体识别"><span class="nav-number">5.</span> <span class="nav-text">物体识别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结果展示"><span class="nav-number">6.</span> <span class="nav-text">结果展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#展望"><span class="nav-number">7.</span> <span class="nav-text">展望</span></a></li></ol></div>
             
 
           </div>
