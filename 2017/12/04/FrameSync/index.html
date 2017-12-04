@@ -1,0 +1,896 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Unity," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="今年公司把重点放在手游上去了，我作为一个前端程序员，不得不紧跟节奏，于是开始了 Unity 的学习。不久前公司的游戏团队做了一款单人闯关的手游，老板在上线前想增加 PVP 的功能（类似于王者荣耀），但苦于团队没有做过网络游戏的经验，于是我又没有意外地接到了这个任务。在接下来的时间里，我经过各种查资料、写 Demo，最后决定使用帧同步技术来实现 PVP 对战功能。
+概念我们知道，在 PVP 网络游戏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Unity 中实现帧同步">
+<meta property="og:url" content="http://yoursite.com/2017/12/04/FrameSync/index.html">
+<meta property="og:site_name" content="金梧的个人博客">
+<meta property="og:description" content="今年公司把重点放在手游上去了，我作为一个前端程序员，不得不紧跟节奏，于是开始了 Unity 的学习。不久前公司的游戏团队做了一款单人闯关的手游，老板在上线前想增加 PVP 的功能（类似于王者荣耀），但苦于团队没有做过网络游戏的经验，于是我又没有意外地接到了这个任务。在接下来的时间里，我经过各种查资料、写 Demo，最后决定使用帧同步技术来实现 PVP 对战功能。
+概念我们知道，在 PVP 网络游戏">
+<meta property="og:image" content="http://yoursite.com/2017/12/04/FrameSync/gif01.gif">
+<meta property="og:updated_time" content="2017-12-04T10:48:13.780Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Unity 中实现帧同步">
+<meta name="twitter:description" content="今年公司把重点放在手游上去了，我作为一个前端程序员，不得不紧跟节奏，于是开始了 Unity 的学习。不久前公司的游戏团队做了一款单人闯关的手游，老板在上线前想增加 PVP 的功能（类似于王者荣耀），但苦于团队没有做过网络游戏的经验，于是我又没有意外地接到了这个任务。在接下来的时间里，我经过各种查资料、写 Demo，最后决定使用帧同步技术来实现 PVP 对战功能。
+概念我们知道，在 PVP 网络游戏">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/04/FrameSync/gif01.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/04/FrameSync/"/>
+
+
+
+
+
+  <title> 在 Unity 中实现帧同步 | 金梧的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ee3399eb7801b18cbaed85f20678873b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">金梧的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/04/FrameSync/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="金梧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="金梧的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                在 Unity 中实现帧同步
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-04T00:00:00+08:00">
+                2017-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/12/04/FrameSync/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/04/FrameSync/" class="leancloud_visitors" data-flag-title="在 Unity 中实现帧同步">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今年公司把重点放在手游上去了，我作为一个前端程序员，不得不紧跟节奏，于是开始了 Unity 的学习。不久前公司的游戏团队做了一款单人闯关的手游，老板在上线前想增加 PVP 的功能（类似于王者荣耀），但苦于团队没有做过网络游戏的经验，于是我又没有意外地接到了这个任务。在接下来的时间里，我经过各种查资料、写 Demo，最后决定使用帧同步技术来实现 PVP 对战功能。</p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>我们知道，在 PVP 网络游戏中，每个客户端都有可能操作一个或多个人物，可以移动、攻击、释放技能等等，在经过一系列计算处理后（比如打中了某个怪物），会在本客户端产生一个当前的状态，此时也需要知道其他客户端当前的状态，并且实时性要很高，这样才能保证此类游戏的可玩性。这种使得各个客户端表现一致的过程叫做同步，同步又分为状态同步和帧同步。</p>
+<h2 id="状态同步"><a href="#状态同步" class="headerlink" title="状态同步"></a>状态同步</h2><p>状态同步顾名思义就是同步各个客户端的状态，可能过程不一定同步，但是能保证每一次操作后的状态是一致的。通过开发服务端程序，把用户的操作作为输入实时上传到服务端，服务端通过计算返回结果给各个客户端，这样的过程就是状态同步。</p>
+<p>状态同步有几个特点：</p>
+<ul>
+<li>客户端只上传操作指令，但是接收所有客户端的状态信息。</li>
+<li>整个游戏的逻辑全都在服务端，客户端只是展示的功能。</li>
+<li>客户端反外挂能力强。</li>
+<li>由服务端统一下发状态，不可能会有不同步的情况。</li>
+<li>耗流量不稳定，数据传输量会随着游戏单位和单位信息的增多而增大。</li>
+<li>开发效率低，由于整个游戏的逻辑都需要在服务端重新开发，某些引擎（比如 Unity）就完全无用了。</li>
+</ul>
+<h2 id="帧同步"><a href="#帧同步" class="headerlink" title="帧同步"></a>帧同步</h2><p>与状态同步不同的是，帧同步的服务端开发非常简单，只需要进行指令转发工作即可完成。客户端按照一定的帧速率（理解为逻辑帧，而不是客户端的渲染帧）去上传当前的操作指令，服务端将操作指令广播给所有客户端，当客户端收到指令后执行本地代码，如果输入的指令一致，计算的过程一致，那么计算的结果肯定是一致的，这样就能保证所有客户端的同步，这就是帧同步。</p>
+<p>帧同步有几个特点：</p>
+<ul>
+<li>客户端只上传操作指令，也只接收操作指令。</li>
+<li>整个游戏的逻辑在客户端，服务端没有客户端的状态信息。</li>
+<li>客户端反外挂能力弱。</li>
+<li>对客户端程序要求高，很容易出现不同步的情况，而且不容易查找。</li>
+<li>耗流量低，数据传输量始终只有各个客户端的操作指令。</li>
+<li>开发效率高，对于已经开发好的单机客户端，只需要按照帧同步的策略去修改部分代码即可。</li>
+</ul>
+<h1 id="帧同步实现的过程"><a href="#帧同步实现的过程" class="headerlink" title="帧同步实现的过程"></a>帧同步实现的过程</h1><p>通过上面的概念了解到帧同步其实就是客户端接收操作指令自行计算，使得结果一致从而保证同步。要实现帧同步，关键是要控制每个客户端的计算过程完全一致，因为起始状态一致，那么每一帧计算的结果肯定一致。帧同步还需要注意两个概念：逻辑帧和渲染帧。我们说的帧同步都是指逻辑帧同步，也就是说所有计算都是基于逻辑帧，渲染帧（Update 等）只作显示用。</p>
+<p>传统的做法是每个客户端在一定时间内收集操作指令，以一定时间间隔（PVP 游戏一般为 50ms）上传操作指令，并且携带当前的帧编号（帧编号不断增加），服务端必须在收集到所有客户端的当前帧数据后才会下发，也就是会等待所有客户端正常上传操作指令才认为这一帧数据是正常的。这样做有个非常大的缺点，就是网络延迟永远等于延迟最高的那位玩家，这对于 PVP 这种实时性要求非常高的游戏来说是致命的，就游戏性而言也是不公平的。尽管有些开发者做了一些改进措施，比如超时机制，当服务端超过一定时间没有收到某个客户端的帧数据时，便舍弃这个客户端，直接广播数据给所有客户端。这样虽然能使得延迟效果好一些，但对网络要求较高，如果有一个客户端网络环境很差，那么每一帧数据都要等到这个超时才会下发，游戏肯定不会平滑了。</p>
+<p>随着游戏技术的发展，帧同步也有了变化，出现了一种叫乐观帧的模式，它的核心流程和传统的帧同步完全相反，由服务端来控制帧速率（比如 50ms 增加一帧），客户端有了操作指令即时上传，空闲时间不用上传，服务端在一帧时间内把收集到的所有操作指令广播下去，客户端根据操作指令执行本地代码。这种模式的好处有几点：</p>
+<ul>
+<li>客户端不用在无操作指令的时候上传。</li>
+<li>客户端不用控制帧速率（在不同平台客户端要想控制相同的速率也不是简单的事）。</li>
+<li>不会因为某个客户端延迟而影响没有延迟的客户端，这点对于 PVP 游戏尤其重要。</li>
+</ul>
+<p>有了乐观帧同步，我们可以写一些实际代码来感受一下，下面是我写的 Demo 中的一些代码，功能就是仿照王者荣耀的玩法，对战双方的移动、攻击、扣血和复活，Demo 写的不是很精细，重点是做到客户端同步，而且还带了重连功能。</p>
+<h2 id="如何接收帧指令"><a href="#如何接收帧指令" class="headerlink" title="如何接收帧指令"></a>如何接收帧指令</h2><p>乐观帧同步是由服务端控制帧速率的，但由于网络抖动等原因，不可能保证在客户端也能以相同时间间隔接收操作指令，我的做法就是把接收到的操作指令保存起来，然后在本地去以一定间隔取操作指令，执行完成后则删除。下面是我封装了一个处理帧指令的类：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> System.Collections;</div><div class="line"><span class="keyword">using</span> System.Collections.Generic;</div><div class="line"><span class="keyword">using</span> UnityEngine;</div><div class="line"><span class="keyword">using</span> System.Threading;</div><div class="line"><span class="keyword">using</span> SimpleJson;</div><div class="line"><span class="keyword">using</span> System;</div><div class="line"><span class="keyword">using</span> System.Reflection;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogicFrame</span> : <span class="title">MonoBehaviour</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 接收到的帧指令集合</span></div><div class="line">    <span class="keyword">private</span> ArrayList frameOrderList = <span class="keyword">new</span> ArrayList ();</div><div class="line">    <span class="comment">// 控制时间间隔</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">float</span> lastFrameTime = <span class="number">0</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">float</span> nextFrameWaitTime = <span class="number">0.05</span>f;</div><div class="line">	<span class="comment">// 需要分发逻辑帧的脚本</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> ArrayList methodList = <span class="keyword">new</span> ArrayList ();</div><div class="line">	<span class="comment">// 保存当前帧的玩家指令</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Dictionary&lt;<span class="keyword">int</span>, JsonObject&gt; playerOrder = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">int</span>, JsonObject&gt; ();</div><div class="line">    <span class="comment">// 记录当前执行的帧编号</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> frame = <span class="number">-1</span>; </div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">        <span class="comment">// 每隔一段时间执行一次 Loop() 函数，根据操作指令集合中剩余的数量来调整速度</span></div><div class="line">		<span class="keyword">float</span> now = Time.time;</div><div class="line">		<span class="keyword">int</span> frameCount = frameOrderList.Count;</div><div class="line">		<span class="keyword">if</span> (now - lastFrameTime &gt;= nextFrameWaitTime &amp;&amp; frameCount &gt; <span class="number">0</span>) &#123;</div><div class="line">			lastFrameTime = now;</div><div class="line">			Loop ();</div><div class="line">			<span class="keyword">if</span> (frameCount == <span class="number">1</span>) &#123;</div><div class="line">				nextFrameWaitTime = <span class="number">0.05</span>f;</div><div class="line">			&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">frameCount == <span class="number">2</span></span>) </span>&#123;</div><div class="line">				nextFrameWaitTime = <span class="number">0.038</span>f;</div><div class="line">			&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">frameCount &lt;= <span class="number">4</span></span>) </span>&#123;</div><div class="line">				nextFrameWaitTime = <span class="number">0.016</span>f;</div><div class="line">			&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">frameCount &lt;= <span class="number">16</span></span>) </span>&#123;</div><div class="line">				nextFrameWaitTime = <span class="number">0.0</span>f;</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">					Loop ();</div><div class="line">				&#125;</div><div class="line">				nextFrameWaitTime = <span class="number">0.0</span>f;</div><div class="line">			&#125;</div><div class="line">			nextFrameWaitTime = Mathf.Max (<span class="number">0</span>, nextFrameWaitTime - Time.deltaTime / <span class="number">2</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Loop</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="comment">// 总是取第一条帧指令</span></div><div class="line">		JsonObject frameOrder = (JsonObject)frameOrderList [<span class="number">0</span>];</div><div class="line">		<span class="comment">// 记录当前执行的帧编号</span></div><div class="line">		frame = Convert.ToInt64 (frameOrder [<span class="string">"frame"</span>]);</div><div class="line">		<span class="comment">// 保存每个玩家的当前帧指令</span></div><div class="line">		JsonArray datas = (JsonArray)frameOrder [<span class="string">"datas"</span>];</div><div class="line">		playerOrder = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">int</span>, JsonObject&gt; ();</div><div class="line">		<span class="keyword">foreach</span> (JsonObject data <span class="keyword">in</span> datas) &#123;</div><div class="line">			<span class="keyword">int</span> uid = Convert.ToInt32 (data [<span class="string">"uid"</span>]);</div><div class="line">			JsonObject userData = (JsonObject)data [<span class="string">"data"</span>];</div><div class="line">			playerOrder.Add (uid, userData);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 分发逻辑帧</span></div><div class="line">		Dispatch ();</div><div class="line">		<span class="comment">// 删除取出的指令</span></div><div class="line">		frameOrderList.RemoveAt (<span class="number">0</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Dispatch</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">foreach</span> (Method method <span class="keyword">in</span> methodList) &#123;</div><div class="line">			<span class="keyword">if</span> (method.methodInfo == <span class="literal">null</span>) &#123;</div><div class="line">				<span class="keyword">continue</span>; </div><div class="line">			&#125;</div><div class="line">			method.methodInfo.Invoke (method.mono, <span class="literal">null</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JsonObject <span class="title">getFrameOrder</span> (<span class="params"><span class="keyword">int</span> uid</span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span> (playerOrder.ContainsKey (uid)) &#123;</div><div class="line">			<span class="keyword">return</span> playerOrder [uid];</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Register</span> (<span class="params">MonoBehaviour mono</span>)</span></div><div class="line">	&#123;</div><div class="line">		Method method = <span class="keyword">new</span> Method (mono, mono.GetType ().GetMethod (<span class="string">"FrameUpdate"</span>, BindingFlags.NonPublic | BindingFlags.Instance));</div><div class="line">		<span class="keyword">if</span> (methodList.Contains (method)) &#123;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		methodList.Add (method);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Unregister</span> (<span class="params">MonoBehaviour mono</span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">foreach</span> (Method method <span class="keyword">in</span> methodList) &#123;</div><div class="line">			<span class="keyword">if</span> (method.mono.Equals (mono)) &#123;</div><div class="line">				methodList.Remove (method);    </div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Method</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">public</span> MonoBehaviour mono;</div><div class="line">		<span class="keyword">public</span> MethodInfo methodInfo;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Method</span> (<span class="params">MonoBehaviour mono, MethodInfo methodInfo</span>)</span></div><div class="line">		&#123;</div><div class="line">			<span class="keyword">this</span>.mono = mono;</div><div class="line">			<span class="keyword">this</span>.methodInfo = methodInfo;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码首先在 Update 里面做了一个循环，会根据当前操作指令集合中剩余的数量调整间隔时间。可以看出数量越多速度会越快，设置出现了连续执行 10 次的情况，这是为了对抗网络延迟，如果某段时间网络延迟了一下，Loop() 函数执行速度会增加（游戏中的表现就是加速），直至让集合清空，由于服务端是定时下发操作指令，这样处理不至于让操作指令集合越堆越多，导致客户端表现明显的延迟。还可以看到如果集合为空，将不会执行 Loop() 函数。由于帧同步是由逻辑帧驱动的，如果逻辑帧停止那么游戏表现也是停止，逻辑帧的间隔时间也会影响游戏的速度。</p>
+<p>关于 Loop() 函数，应该可以说是帧同步的核心了，我一开始的做法是直接在里面进行计算，哪个地方需要，就调用哪个函数。但受到 Unity 的影响，发现它的每个过程都是以回调函数实现的，比如 Update，而且不带任何参数，如果需要取得某个参数，通过其他静态函数获取，比如获取鼠标按键。之后我也效仿这个设计，通过反射获取脚本的 FrameUpdate() 函数，然后在 Loop() 函数中调用，在调用 FrameUpdate() 函数前会把当前帧的操作指令保存起来，可以通过 getFrameOrder() 函数获取某个玩家当前帧的操作指令。</p>
+<h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><p>有了上面封装的类，我们可以实现一个关于物体移动的类，由于客户端的所有表现都需要逻辑驱动，所以不只是人物移动依赖 FrameUpdate() 函数，游戏中的飞行道具（如远程英雄攻击）也需要依赖 FrameUpdate()，我们可以写一个通用的类，代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> System.Collections;</div><div class="line"><span class="keyword">using</span> System.Collections.Generic;</div><div class="line"><span class="keyword">using</span> UnityEngine;</div><div class="line"><span class="keyword">using</span> System;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogicFrameMove</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 要移动的对象</span></div><div class="line">	<span class="keyword">public</span> GameObject mover;</div><div class="line">	<span class="comment">// 移动速度</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">float</span> speed;</div><div class="line">	<span class="comment">// 当前帧的起始位置</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">float</span> currPosition;</div><div class="line">	<span class="comment">// 目标位置</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">float</span> targetPosition;</div><div class="line">	<span class="comment">// 上一次的目标位置</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">float</span> lastTargetPosition;</div><div class="line">	<span class="comment">// 预测的位置</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">float</span> forecastPosition;</div><div class="line">	<span class="comment">// 当前帧的人物移动的真实速度</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">float</span> speedReal;</div><div class="line">	<span class="comment">// 是否是预测阶段</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">bool</span> isForecast = <span class="literal">false</span>;</div><div class="line">	<span class="comment">// 是否正在移动</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">bool</span> isMove = <span class="literal">false</span>;</div><div class="line">	<span class="comment">// 当前帧的移动是否是新的位置</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">bool</span> isNewPosition = <span class="literal">false</span>;</div><div class="line">	<span class="comment">// 移动动画相关</span></div><div class="line">	<span class="keyword">private</span> Animation animation;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">string</span> idleAnimationName;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">string</span> moveAnimationName;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">bool</span> isNormalAnimation = <span class="literal">false</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">LogicFrameMove</span>(<span class="params">GameObject mover, <span class="keyword">float</span> speed, Vector3 currPosition</span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">this</span>.mover = mover;</div><div class="line">		<span class="keyword">this</span>.speed = speed;</div><div class="line">		<span class="keyword">this</span>.currPosition = currPosition;</div><div class="line">		targetPosition = Vector3.zero;</div><div class="line">		lastTargetPosition = Vector3.zero;</div><div class="line">		forecastPosition = Vector3.zero;</div><div class="line">		speedReal = speed;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">StartMove</span>(<span class="params"><span class="keyword">float</span> vx, <span class="keyword">float</span> vy, <span class="keyword">float</span> vz</span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="comment">// 计算下一步应该要走的位置</span></div><div class="line">		Vector3 moveVector = <span class="keyword">new</span> Vector3 (vx, vy, vz);</div><div class="line">		targetPosition = currPosition + moveVector * <span class="number">0.05</span>f * speed;</div><div class="line">		currPosition = targetPosition;</div><div class="line">		<span class="comment">// 调整真实的移动速度</span></div><div class="line">		speedReal = Vector3.Distance(mover.transform.position, targetPosition) / <span class="number">0.05</span>f;</div><div class="line">		<span class="comment">// 计算一个预测的位置</span></div><div class="line">		forecastPosition = targetPosition + moveVector * <span class="number">0.05</span>f * speed;</div><div class="line">		<span class="comment">// 正在移动的标志</span></div><div class="line">		isMove = <span class="literal">true</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Move</span>(<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span> (targetPosition == Vector3.zero) &#123;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 判断是否是新的位置</span></div><div class="line">		<span class="keyword">if</span> (lastTargetPosition == targetPosition) &#123;</div><div class="line">			isNewPosition = <span class="literal">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			isNewPosition = <span class="literal">true</span>;</div><div class="line">		&#125;</div><div class="line">		lastTargetPosition = targetPosition;</div><div class="line">		<span class="comment">// 正常移动并判断是否需要预测位置</span></div><div class="line">		<span class="keyword">if</span> (isNewPosition) &#123;</div><div class="line">			<span class="keyword">if</span> (!isForecast) &#123;</div><div class="line">				mover.transform.LookAt (targetPosition);</div><div class="line">			&#125;</div><div class="line">			mover.transform.position = Vector3.MoveTowards (mover.transform.position, targetPosition, Time.deltaTime * speedReal);</div><div class="line">			isForecast = <span class="literal">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">if</span> (!isForecast) &#123;</div><div class="line">				mover.transform.LookAt (targetPosition);</div><div class="line">				mover.transform.position = Vector3.MoveTowards (mover.transform.position, targetPosition, Time.deltaTime * speedReal);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span> (mover.transform.position == targetPosition) &#123;</div><div class="line">				isForecast = <span class="literal">true</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 预测阶段需要走到预测的位置</span></div><div class="line">		<span class="keyword">if</span> (isForecast) &#123;</div><div class="line">			<span class="keyword">if</span> (forecastPosition != Vector3.zero) &#123;</div><div class="line">				<span class="comment">// 只有移动状态才会走预测位置，如果在预测阶段停止移动则马上停止</span></div><div class="line">				<span class="keyword">if</span> (isMove) &#123;</div><div class="line">					mover.transform.LookAt (forecastPosition);</div><div class="line">					mover.transform.position = Vector3.MoveTowards (mover.transform.position, forecastPosition, Time.deltaTime * speedReal);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 移动动画</span></div><div class="line">		MoveAnimation();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">MoveAnimation</span>(<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span> (animation == <span class="literal">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (isMove) &#123;</div><div class="line">			isNormalAnimation = <span class="literal">true</span>;</div><div class="line">			animation.Play (moveAnimationName);</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">if</span> (isNormalAnimation) &#123;</div><div class="line">				animation.Play (idleAnimationName);</div><div class="line">				isNormalAnimation = <span class="literal">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">StopMove</span>(<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">		isMove = <span class="literal">false</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetAnimation</span>(<span class="params">Animation animation, <span class="keyword">string</span> idleAnimationName, <span class="keyword">string</span> moveAnimationName</span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">this</span>.animation = animation;</div><div class="line">		<span class="keyword">this</span>.idleAnimationName = idleAnimationName;</div><div class="line">		<span class="keyword">this</span>.moveAnimationName = moveAnimationName;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码关键是 StartMove() 函数，计算目标位置和预测位置，这个函数在逻辑帧中执行。目标位置是根据给定和速度朝着给定的方向朝前走 50ms 计算出来的，而预测位置则是朝前走 100ms。为什么要有个预测位置？我们知道网络延迟肯定是有的，那么不可能保证在这一帧执行完之前下一帧数据会按时到达，对于其他操作比如攻击影响倒是不大，但对于移动这种连续性的动作，如果严格按照逻辑帧驱动可能表现得不是很平滑，那么我们就需要一个预测位置。在新的移动位置没有计算出来时先朝着预测位置走去，如果此时新的位置计算出来，再朝新位置走去，这样也不会导致结果不一致。</p>
+<p>剩下的 Move() 函数就是真正的移动操作了，这个方法需要放在渲染帧中执行，它与逻辑帧无关，它总是朝着计算好的位置走就对了。还有一个 StopMove() 方法停止移动和 SetAnimation() 方法来控制移动过程中的动画，这个函数应该根据项目使用的动画系统有所变化。</p>
+<p>有了上面的代码，我们可以对任意物体进行移动，比如现在要对玩家射出的子弹进行移动，用法如下:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> System.Collections;</div><div class="line"><span class="keyword">using</span> System.Collections.Generic;</div><div class="line"><span class="keyword">using</span> UnityEngine;</div><div class="line"><span class="keyword">using</span> SimpleJson;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Projectile</span> : <span class="title">MonoBehaviour</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 飞行道具的飞行速度</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">float</span> speed;</div><div class="line">	<span class="comment">// 移动相关</span></div><div class="line">	<span class="keyword">private</span> LogicFrameMove mover;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">		mover = <span class="keyword">new</span> LogicFrameMove (gameObject, speed, transform.position);</div><div class="line">        <span class="comment">// 注册逻辑帧分发的回调函数</span></div><div class="line">		LogicFrame.Register (<span class="keyword">this</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnDestroy</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">        <span class="comment">// 注销逻辑帧分发的回调函数</span></div><div class="line">		LogicFrame.Unregister (<span class="keyword">this</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">FrameUpdate</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">        <span class="comment">// 按照当前方向计算目标位置和预测位置</span></div><div class="line">		Vector3 moveVector = <span class="keyword">new</span> Vector3 (transform.forward.x, transform.forward.y, transform.forward.z);</div><div class="line">		mover.StartMove (moveVector.x, moveVector.y, moveVector.z);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>)</span></div><div class="line">	&#123;</div><div class="line">        <span class="comment">// 物体移动</span></div><div class="line">		mover.Move ();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码就非常简单了，由于子弹产生后方向不会改变，所以只需要在 FrameUpdate() 里面不停地按照当前的方向计算位置就对了，然后在 Update 去移动，实现逻辑帧与渲染帧的分离。其他类型的移动大体一样，只不过方向可能随时会发生变化，比如人物移动摇杆不停变化，这里不再贴代码。</p>
+<h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h2><p>攻击的实现比起移动就非常简单了，只需要在 FrameUpdate() 中接收操作指令，进行相应的处理即可，由于所有客户端在接到攻击指令时是同一逻辑帧，那么只要代码一样，产生的结果肯定也一致。</p>
+<p>但我在开发过程中遇到一个问题，就是我在攻击后会有一些判断，如果有敌方玩家在攻击范围内，近程英雄会对其造成伤害，远程英雄会放出飞行道具，这里我是使用协程实现的。一开始觉得协程没有问题，后来测试出来在某些情况下可能不同步，比如如果游戏速度变化较大（根据网络情况自动调整，前面有说到），会造成受伤害的帧编号不一致，最后会导致死亡时间不一致，这样会由于蝴蝶效应产生更多意想不到的不同步。</p>
+<p>所以针对这类和时间相关的（比如协程）在帧同步中应该禁止使用，应该严格按照逻辑帧来判断，比如攻击出手后 1s 放出飞行道具，那么就应该是在接收到攻击指令的那一帧开始停顿 20 帧（逻辑停顿）再放出飞行道具，针对这点我写了几个函数，可以实现延迟调用某个函数，这个函数也必须在 FrameUpdate() 函数里面使用，代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 延迟调用函数相关</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> ArrayList methodDelayList = <span class="keyword">new</span> ArrayList ();</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> ArrayList methodDelayListTemp = <span class="keyword">new</span> ArrayList ();</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">InvokeDelay</span> (<span class="params">MonoBehaviour mono, <span class="keyword">float</span> delay, <span class="keyword">string</span> methodName, <span class="keyword">object</span>[] parameters</span>)</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> frame = (<span class="keyword">int</span>)(delay / <span class="number">0.05</span>f);</div><div class="line">	InvokeDelayByFrame (mono, frame, methodName, parameters);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">InvokeDelayByFrame</span> (<span class="params">MonoBehaviour mono, <span class="keyword">int</span> frame, <span class="keyword">string</span> methodName, <span class="keyword">object</span>[] parameters</span>)</span></div><div class="line">&#123;</div><div class="line">	Method method = <span class="keyword">new</span> Method (mono, mono.GetType ().GetMethod (methodName, BindingFlags.NonPublic | BindingFlags.Instance));</div><div class="line">	methodDelayListTemp.Add (<span class="keyword">new</span> MethodDelay (method, parameters, frame));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title">MethodDelay</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> Method method;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">object</span>[] parameters;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> currFrame;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> frame;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MethodDelay</span> (<span class="params">Method method, <span class="keyword">object</span>[] parameters, <span class="keyword">int</span> frame</span>)</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">this</span>.method = method;</div><div class="line">		<span class="keyword">this</span>.parameters = parameters;</div><div class="line">		<span class="keyword">this</span>.currFrame = <span class="number">0</span>;</div><div class="line">		<span class="keyword">this</span>.frame = frame;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Invoke</span> (<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">	ArrayList deleteList = <span class="keyword">new</span> ArrayList ();</div><div class="line">	methodDelayList.AddRange (methodDelayListTemp);</div><div class="line">	methodDelayListTemp.RemoveRange (<span class="number">0</span>, methodDelayListTemp.Count);</div><div class="line">	<span class="keyword">foreach</span> (MethodDelay methodDelay <span class="keyword">in</span> methodDelayList) &#123;</div><div class="line">		<span class="keyword">if</span> (methodDelay.method.methodInfo == <span class="literal">null</span>) &#123;</div><div class="line">			deleteList.Add (methodDelay);</div><div class="line">			<span class="keyword">continue</span>; </div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (methodDelay.currFrame == methodDelay.frame) &#123;</div><div class="line">			methodDelay.method.methodInfo.Invoke (methodDelay.method.mono, methodDelay.parameters);</div><div class="line">			deleteList.Add (methodDelay);</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			methodDelay.currFrame++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">foreach</span> (MethodDelay delete <span class="keyword">in</span> deleteList) &#123;</div><div class="line">		<span class="keyword">if</span> (methodDelayList.Contains (delete)) &#123;</div><div class="line">			methodDelayList.Remove (delete);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Loop</span> (<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 总是取第一条帧指令</span></div><div class="line">	JsonObject frameOrder = (JsonObject)frameOrderList [<span class="number">0</span>];</div><div class="line">	<span class="comment">// 记录当前执行的帧编号</span></div><div class="line">	frame = Convert.ToInt64 (frameOrder [<span class="string">"frame"</span>]);</div><div class="line">	<span class="comment">// 保存每个玩家的当前帧指令</span></div><div class="line">	JsonArray datas = (JsonArray)frameOrder [<span class="string">"datas"</span>];</div><div class="line">	playerOrder = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">int</span>, JsonObject&gt; ();</div><div class="line">	<span class="keyword">foreach</span> (JsonObject data <span class="keyword">in</span> datas) &#123;</div><div class="line">		<span class="keyword">int</span> uid = Convert.ToInt32 (data [<span class="string">"uid"</span>]);</div><div class="line">		JsonObject userData = (JsonObject)data [<span class="string">"data"</span>];</div><div class="line">		playerOrder.Add (uid, userData);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 分发逻辑帧</span></div><div class="line">	Dispatch ();</div><div class="line">    <span class="comment">// 延迟调用函数</span></div><div class="line">    Invoke ();</div><div class="line">	<span class="comment">// 删除取出的指令</span></div><div class="line">	frameOrderList.RemoveAt (<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码很简单，首先根据传入的停顿时间计算应该停顿的帧数，然后将相关信息加入集合，在 Loop() 函数中遍历集合，每一次调用会增加当前帧数，当达到延时条件则反射调用，调用后即刻删除。</p>
+<p>有了这几个函数，可以很轻松地实现攻击一段时间后作出反应，比如进程英雄在打中敌方英雄时使其受到伤害，使用方法如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FrameUpdate</span> (<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 取当前帧的指令，并进行相应的计算</span></div><div class="line">	JsonObject frameOrder = LogicFrame.getFrameOrder (uid);</div><div class="line">	<span class="keyword">if</span> (frameOrder != <span class="literal">null</span>) &#123;</div><div class="line">		<span class="keyword">if</span> (type == Global.Frame_Attack) &#123; <span class="comment">// 攻击</span></div><div class="line">            ...</div><div class="line">		    <span class="comment">// 一秒后会对 aimId 玩家造成伤害</span></div><div class="line">		    <span class="keyword">float</span> delay = <span class="number">1.0</span>f;</div><div class="line">		    LogicFrame.InvokeDelay (<span class="keyword">this</span>, delay, <span class="string">"AttackHit"</span>, <span class="keyword">new</span> <span class="keyword">object</span>[]&#123;aimId&#125;);</div><div class="line">            ...</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">AttackHit</span> (<span class="params"><span class="keyword">int</span> aimId</span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 对 aimId 玩家造成 200 点伤害</span></div><div class="line">    Damage (aimId, <span class="number">200</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="死亡、重生"><a href="#死亡、重生" class="headerlink" title="死亡、重生"></a>死亡、重生</h2><p>当某个玩家血量为 0 时，则判断其死亡，进入死亡倒计时，倒计时结束后重生，这些过程由于是不通知服务端的，完全靠客户端执行本地代码，所以也要严格按照逻辑帧驱动的方法写代码，否则容易造成不同步。比如重生倒计时，需要结合上面写的延时函数实现：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> rebornTime = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Damage</span> (<span class="params"><span class="keyword">int</span> aimId, <span class="keyword">int</span> damageHp</span>)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 被伤害的人</span></div><div class="line">	Player aimPlayer = Global.entity [aimId].GetComponent&lt;Player&gt; ();</div><div class="line">	<span class="comment">// 扣血 </span></div><div class="line">	aimPlayer.blood.currValue -= damageHp;</div><div class="line">	<span class="comment">// 死亡</span></div><div class="line">	<span class="keyword">if</span> (aimPlayer.blood.currValue &lt;= <span class="number">0</span>) &#123;</div><div class="line">		aimPlayer.blood.currValue = <span class="number">0</span>;</div><div class="line">	    <span class="comment">// 开始重生倒计时</span></div><div class="line">	    LogicFrame.InvokeDelayByFrame(aimPlayer, <span class="number">0.0</span>f, <span class="string">"RebornCountDown"</span>, <span class="keyword">new</span> <span class="keyword">object</span>[]&#123;time, aimId&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RebornCountDown</span> (<span class="params"><span class="keyword">int</span> time, <span class="keyword">int</span> aimId</span>)</span></div><div class="line">&#123;</div><div class="line">	Reborn (time, aimId);</div><div class="line">	<span class="keyword">if</span> (time &gt; <span class="number">0</span>) &#123;</div><div class="line">		rebornTime = time - <span class="number">1</span>;</div><div class="line">        <span class="comment">// 每隔一秒调用自身，当倒计时完成后退出</span></div><div class="line">		LogicFrame.InvokeDelay (<span class="keyword">this</span>, <span class="number">1.0</span>f, <span class="string">"RebornCountDown"</span>, <span class="keyword">new</span> <span class="keyword">object</span>[]&#123;rebornTime, aimId&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Reborn</span> (<span class="params"><span class="keyword">int</span> time, <span class="keyword">int</span> aimId</span>)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 重生完成</span></div><div class="line">	<span class="keyword">if</span> (time == <span class="number">0</span>) &#123;</div><div class="line">        ...</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>死亡和重生也需要保证严格的同步，即在哪一帧死亡，在哪一帧重生，只要严格按照逻辑帧驱动，就不会出问题。</p>
+<h1 id="关于定点数"><a href="#关于定点数" class="headerlink" title="关于定点数"></a>关于定点数</h1><p>如果使用帧同步开发手游，还要注意在不同平台（Android 和 IOS）下浮点数的精度差异，可能会造成计算的结果不同，要解决这个问题也很简单，使用定点数代替浮点数进行计算，关于定点数我在 Github 上找到一个库很好用，附上地址：<a href="https://github.com/Prince-Ling/LogicPhysics/" target="_blank" rel="external">https://github.com/Prince-Ling/LogicPhysics/</a>，使用方法就不再赘述。</p>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p>写了这么多代码，我把我写的 Demo 效果贴个动态图感受一下。</p>
+<img src="/2017/12/04/FrameSync/gif01.gif" alt="gif01.gif" title="">
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>使用帧同步技术是开发 PVP 必备的，但要使用好也是有一定难度的，要保证完全的同步是不太可能的（王者荣耀都有不同步的情况），但我们在开发中应当尽量避免不同步的操作，做到以下几点就能很好地避免不同步产生：</p>
+<ul>
+<li>游戏中关于计算都需要在 FrameUpdate() 函数中，只有渲染时才使用 Unity 自带的回调函数，如 Update()、FixedUpdate() 等。</li>
+<li>禁止使用协程</li>
+<li>禁止使用和时间相关的函数计算，比如 Time.time、Time.deltaTime 等，应该使用当前帧编号*帧间隔时间来计算。</li>
+<li>游戏在不同平台运行时可能会由于浮点数的精度差异造成不同步，可以使用定点数解决这一问题。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Unity/" rel="tag"># Unity</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/19/EventBus/" rel="next" title="深入解读 EventBus 3.0 源码">
+                <i class="fa fa-chevron-left"></i> 深入解读 EventBus 3.0 源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.png"
+               alt="金梧" />
+          <p class="site-author-name" itemprop="name">金梧</p>
+           
+              <p class="site-description motion-element" itemprop="description">带着敬畏之心前进。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态同步"><span class="nav-number">1.1.</span> <span class="nav-text">状态同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帧同步"><span class="nav-number">1.2.</span> <span class="nav-text">帧同步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帧同步实现的过程"><span class="nav-number">2.</span> <span class="nav-text">帧同步实现的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何接收帧指令"><span class="nav-number">2.1.</span> <span class="nav-text">如何接收帧指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动"><span class="nav-number">2.2.</span> <span class="nav-text">移动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击"><span class="nav-number">2.3.</span> <span class="nav-text">攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死亡、重生"><span class="nav-number">2.4.</span> <span class="nav-text">死亡、重生</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于定点数"><span class="nav-number">3.</span> <span class="nav-text">关于定点数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果图"><span class="nav-number">4.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">金梧</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "c674d0a32c27459b8acc797658ef9abe",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gjsjvK0i8vzDEpcnAQVSSXuM-gzGzoHsz", "SsrbbC9trJjTlGP9WmIANilE");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+
+
+
+</body>
+</html>
