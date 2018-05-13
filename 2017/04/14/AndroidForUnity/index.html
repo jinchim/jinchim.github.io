@@ -87,14 +87,14 @@
 
 
 
-<meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
+<meta name="description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。 准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
+<meta name="keywords" content="Android,Unity">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 和 Unity 交互及各种神坑">
 <meta property="og:url" content="http://yoursite.com/2017/04/14/AndroidForUnity/index.html">
 <meta property="og:site_name" content="金梧的个人博客">
-<meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
+<meta property="og:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。 准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img02.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img03.png">
@@ -104,11 +104,10 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img07.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img08.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img09.png">
-<meta property="og:updated_time" content="2017-05-26T01:59:33.000Z">
+<meta property="og:updated_time" content="2017-05-26T01:59:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 和 Unity 交互及各种神坑">
-<meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。
-准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
+<meta name="twitter:description" content="最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。 准备工作首先当然是要按照需求把 SDK 开发出来，这里我使用 A">
 <meta name="twitter:image" content="http://yoursite.com/2017/04/14/AndroidForUnity/img01.png">
 
 
@@ -378,69 +377,69 @@
         <p>最近公司请外包团队做了一款手游，临近上线需要接入公司自己渠道的账号体系（登录、注册、充值等），于是开发 SDK 和在手游中接入 SDK 又落在了我的头上。手游是用 Unity 开发的，而 SDK 是使用 Android Native，现在唯一需要解决的就是它们之间应该如何交互，接下来就把本人如何交互和交互过程中遇到的问题分享给大家。</p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>首先当然是要按照需求把 SDK 开发出来，这里我使用 Android Studio 作为开发环境。</p>
 <p>由于最终 SDK 是要和 Unity 对接的，所以我把 SDK 的所有功能都单独放在了一个库模块中，主模块仅仅是调用，如图（关于 Android 开发不作介绍）：</p>
-<img src="/2017/04/14/AndroidForUnity/img01.png" alt="img01.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img01.png">
 <p><br>对 SDK 的功能进行测试，当本地测试通过后进行下一步。</p>
-<h1 id="在-SDK-中导入-Unity-模块"><a href="#在-SDK-中导入-Unity-模块" class="headerlink" title="在 SDK 中导入 Unity 模块"></a>在 SDK 中导入 Unity 模块</h1><h2 id="Unity-简单介绍"><a href="#Unity-简单介绍" class="headerlink" title="Unity 简单介绍"></a>Unity 简单介绍</h2><p><a href="https://unity3d.com/cn/" target="_blank" rel="external">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC 等多个平台的版本。</p>
+<h1 id="在-SDK-中导入-Unity-模块"><a href="#在-SDK-中导入-Unity-模块" class="headerlink" title="在 SDK 中导入 Unity 模块"></a>在 SDK 中导入 Unity 模块</h1><h2 id="Unity-简单介绍"><a href="#Unity-简单介绍" class="headerlink" title="Unity 简单介绍"></a>Unity 简单介绍</h2><p><a href="https://unity3d.com/cn/" target="_blank" rel="noopener">Unity</a> 是可以开发诸如三维视频游戏、建筑模型、三维动画等交互类内容的多平台综合游戏开发工具，具有很强大的跨平台性。在 Unity 之中编写好场景和程序之后，可以导出 Android、ios、windows phone、PC 等多个平台的版本。</p>
 <h2 id="使用-unity-jar"><a href="#使用-unity-jar" class="headerlink" title="使用 unity.jar"></a>使用 unity.jar</h2><p>Unity 官方给 Android 提供了一个开发包（下载地址自行百度吧～），用以 Android 和 Unity 交互。</p>
 <p>在 Android 工程中引入 unity.jar，编写一个 Activity（需要继承自 UnityPlayerActivity，我的类名是 Unity3dActivity ），这个类便是之后 Android 和 Unity 交互的核心，并且还需要在 AndroidManifest.xml 中写入如下的配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">  <span class="attr">android:name</span>=<span class="string">"com.gempoll.zhai8_sdk.sdk.Unity3dActivity"</span></div><div class="line">  <span class="attr">android:configChanges</span>=<span class="string">"fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"</span>&gt;</div><div class="line">  <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">    <span class="attr">android:name</span>=<span class="string">"unityplayer.UnityActivity"</span></div><div class="line">    <span class="attr">android:value</span>=<span class="string">"true"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:name</span>=<span class="string">"com.gempoll.zhai8_sdk.sdk.Unity3dActivity"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:configChanges</span>=<span class="string">"fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">"unityplayer.UnityActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="导出-SDK-模块的-aar"><a href="#导出-SDK-模块的-aar" class="headerlink" title="导出 SDK 模块的 aar"></a>导出 SDK 模块的 aar</h2><p>当上面的流程配置完成后，编译 Android 项目，成功后可在模块下的 build/outputs/aar 目录，找到相应的 aar 包，一般来说会有 debug 版和 release版（区别在于代码压缩、混淆和应用签名），这里我直接使用了 test_sdk-release.aar。</p>
 <h1 id="在Unity-中导入-SDK-模块"><a href="#在Unity-中导入-SDK-模块" class="headerlink" title="在Unity 中导入 SDK 模块"></a>在Unity 中导入 SDK 模块</h1><p>创建一个 Unity 工程，在其 Assets 目录下建立 Plugins/Android 目录，用于专门存放 Android相关的文件，将需要拷贝的文件拷贝至 Plugins/Android 目录下，如下图：</p>
-<img src="/2017/04/14/AndroidForUnity/img02.png" alt="img02.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img02.png">
 <p><br>至此，基本的配置完成，现在需要写代码让 Unity 和 Android “亲热”起来！</p>
 <h1 id="Unity-和-Android-交互"><a href="#Unity-和-Android-交互" class="headerlink" title="Unity 和 Android 交互"></a>Unity 和 Android 交互</h1><h2 id="Unity-调用-Android"><a href="#Unity-调用-Android" class="headerlink" title="Unity 调用 Android"></a>Unity 调用 Android</h2><p>还记得之前写的一个继承自 UnityPlayerActivity 的类吧，这个类在 Unity 中代表的就是当前的界面，所以交互代码应该都是由这个类提供。</p>
 <p>现在我们来写第一个方法，让 Unity 调用 Android 的 Toast 工具类的方法，在屏幕上显示一条信息。在 Unity3dActivity.java 中写下如下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">u_showToast</span><span class="params">(<span class="keyword">final</span> String text)</span> </span>&#123;</div><div class="line">  runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">      Toast.makeText(Unity3dActivity.<span class="keyword">this</span>, text, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">u_showToast</span><span class="params">(<span class="keyword">final</span> String text)</span> </span>&#123;</span><br><span class="line">  runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Toast.makeText(Unity3dActivity.<span class="keyword">this</span>, text, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重新编译工程，将新的 aar 包拷贝至 Unity 工程中。</p>
 <blockquote>
 <p>坑一：这里使用了 runOnUiThread() 进行线程切换，如果不进行切换，所有和页面相关的代码将不会被执行。</p>
 </blockquote>
 <p>在 Unity 工程中创建 test.cs 文件，绑定到 Unity 对象，在 Start() 方法中写入如下代码：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  AndroidJavaClass jc = <span class="keyword">new</span> AndroidJavaClass(<span class="string">"com.unity3d.player.UnityPlayer"</span>);</div><div class="line">  AndroidJavaObject jo = jc.GetStatic&lt;AndroidJavaObject&gt;(<span class="string">"currentActivity"</span>);</div><div class="line">  jo.Call(<span class="string">"u_showToast"</span>, <span class="string">"test"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  AndroidJavaClass jc = <span class="keyword">new</span> AndroidJavaClass(<span class="string">"com.unity3d.player.UnityPlayer"</span>);</span><br><span class="line">  AndroidJavaObject jo = jc.GetStatic&lt;AndroidJavaObject&gt;(<span class="string">"currentActivity"</span>);</span><br><span class="line">  jo.Call(<span class="string">"u_showToast"</span>, <span class="string">"test"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>解释一下，前两句是找到 Android 的当前界面对象（就是之前写的 Unity3dActivity.java，直接照抄），第三句使用这个对象的 Call() 方法，第一个参数便是在 Unity3dActivity.java 中写的方法名，后面的参数便是该方法对应的参数，这里是调用 Android 方法在屏幕上显示一条“test”信息。</p>
 <blockquote>
 <p>坑二：参数只能是字符串，传入其他类型会使方法失效。</p>
 </blockquote>
 <p>接着，可以使用 Unity 打包 Apk了，要记得对 Player Settings 进行配置，注意包名、版本号、最小编译版本等信息要和 AndroidManifest.xml 中的一致，如下图：</p>
-<img src="/2017/04/14/AndroidForUnity/img03.png" alt="img03.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img03.png">
 <p><br>接着点击 build 进行打包，你会发现报错了！</p>
-<img src="/2017/04/14/AndroidForUnity/img04.png" alt="img04.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img04.png">
 <p><br>此时的你心里一万头草泥马在奔跑，我尼玛搞了这么久你给我来这个？</p>
 <p>别急，我们是程序员，要压抑自己的小宇宙，我们来仔细看看这些错误，其实说的就是 classes.jar 和 unity.jar 有类冲突。那么这两个东西又是什么呢？</p>
 <p>unity.jar 之前说过了，是 Unity 提供给我们进行交互的。可能我们现在还不知道 classes.jar 是什么，先用解压软件打开 test_sdk.aar 一探究竟。</p>
-<img src="/2017/04/14/AndroidForUnity/img05.png" alt="img05.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img05.png">
 <p><br>终于看到 classes.jar 了，从图中可以看出 classes.jar 是 aar 中 java 代码的集合，但这里还有一个 libs 文件夹，点进去会发现会 unity.jar 被打包进来了，这样是不是把这个 unity.jar 删掉就可以了，咱们来试试！</p>
 <blockquote>
 <p>坑三：通过解压软件 aar 中的 unity.jar 删除，然后生成新的 aar，更新 Unity 工程中的 test_sdk.aar，重新打包。</p>
 </blockquote>
 <p>还是报错！不过貌似不是之前的错误了，证明删除 unity.jar 是正确的。</p>
-<img src="/2017/04/14/AndroidForUnity/img06.png" alt="img06.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img06.png">
 <p><br>这里说的是不能合并 AndroidManifest.xml 文件，这里我还是继续用解压软件打开 aar， 删除 AndroidManifest.xml 中所有所有组件配置信息，只留下了 application 标签，如下图：</p>
-<img src="/2017/04/14/AndroidForUnity/img07.png" alt="img07.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img07.png">
 <p><br></p>
 <blockquote>
 <p>坑四：删除 aar 中 AndroidManifest.xml 中的信息，但不能删除其本身！</p>
 </blockquote>
 <p>重新生成 aar，然后拷贝拷贝至 Unity 工程，打包等待。这里公司的电脑打包成功了，但我自己的笔记本还是报错，如下图：</p>
-<img src="/2017/04/14/AndroidForUnity/img08.png" alt="img08.png" title="">
-<p><br>这个错误一看就是环境配置的问题，原因是 SDK 指定的编译工具的版本在 Unity 打包时找不到，一般是因为 Unity 版本太老了，这里给大家一个<a href="http://www.androiddevtools.cn" target="_blank" rel="external">下载地址</a>，下载最新的 SDK Tools，拷贝到 /sdk/tools 下面即可。</p>
+<img src="/2017/04/14/AndroidForUnity/img08.png">
+<p><br>这个错误一看就是环境配置的问题，原因是 SDK 指定的编译工具的版本在 Unity 打包时找不到，一般是因为 Unity 版本太老了，这里给大家一个<a href="http://www.androiddevtools.cn" target="_blank" rel="noopener">下载地址</a>，下载最新的 SDK Tools，拷贝到 /sdk/tools 下面即可。</p>
 <blockquote>
 <p>坑五：aar 中指定的编译工具版本一定要和 Unity 指定的一致！</p>
 </blockquote>
 <p>当环境弄好之后再次打包，终于成功打包了！安装 Apk 后打开，会成功的打印一条“test”的消息，这里我就不贴图了。</p>
 <h2 id="Android-向-Unity-发送消息"><a href="#Android-向-Unity-发送消息" class="headerlink" title="Android 向 Unity 发送消息"></a>Android 向 Unity 发送消息</h2><p>现在我们可以随意在 Unity 中调用 Android 代码了，但是还有一些应用场景需要 Android 向 Unity 发送消息（在 Java 中称为回调），该怎么做呢？</p>
 <p>在 Unity 中，游戏是由 Screen 和 GameObject 构成的，所以游戏世界里的每一个物品都是 GameObject，GameObject 有一个 name 属性，用以区分不同的 GameObject。如果 Android 要向 Unity 发送消息，首先得告诉 Unity 是哪个 GameObject，所以 Android 这边要写一个方法，供 Unity 初始化：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">u_setGameObject</span><span class="params">(String gameObject)</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>.gameObject = gameObject;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">u_setGameObject</span><span class="params">(String gameObject)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.gameObject = gameObject;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里有一个成员变量 gameObject 用以存储当前 Unity 指定的 GameObject。接着，如果想主动发消息给 Unity，可以这样做：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UnityPlayer.UnitySendMessage(gameObject, <span class="string">"onTest"</span>, <span class="string">"test"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UnityPlayer.UnitySendMessage(gameObject, <span class="string">"onTest"</span>, <span class="string">"test"</span>);</span><br></pre></td></tr></table></figure>
 <p>第一个参数表示发送游戏对象的名称，第二个参数表示对象绑定的脚本接收该消息的函数，第三个参数表示本条消息发送的字符串信息。</p>
 <p>接着打开 Unity 工程，编写 test.cs：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  jo.Call(<span class="string">"u_setGameObject"</span>, gameObject.name);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTest</span>(<span class="params"><span class="keyword">string</span> msg</span>) </span>&#123;</div><div class="line">  Debug.Log(msg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  jo.Call(<span class="string">"u_setGameObject"</span>, gameObject.name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTest</span>(<span class="params"><span class="keyword">string</span> msg</span>) </span>&#123;</span><br><span class="line">  Debug.Log(msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里首先调用了 Android 提供的 u_setGameObject()，告知 Android 要通知的 GameObject 就是自身，然后写了一个回调函数 onTest()，和 Android 中定义的一样，这样便能接受到 Android 传过来的消息了。</p>
 <p>至此，Android 和 Unity 的基本交互就 OK 了！</p>
 <h1 id="其他坑货"><a href="#其他坑货" class="headerlink" title="其他坑货"></a>其他坑货</h1><p>不要以为到这里就可以地让 Android 和 Unity 快乐地么么哒了，踩坑之路还未结束～</p>
 <h2 id="运行时找不到类"><a href="#运行时找不到类" class="headerlink" title="运行时找不到类"></a>运行时找不到类</h2><p>使用 Android Studio 开发的同学，肯定对 Gradle 非常的喜爱，其中有一项特性就是加载第三方库不需要再去到处找了，直接在 build.gradle 中相应的位置写上对应的包名即可，它的原理是在编译时去下载这些库文件，然后打包进 Apk 中，但是如果以这种方式生成 aar 给 Unity调用，便会在运行时抛出找不到类的错误，如下图：</p>
-<img src="/2017/04/14/AndroidForUnity/img09.png" alt="img09.png" title="">
+<img src="/2017/04/14/AndroidForUnity/img09.png">
 <p><br>这里提示我找不到 EventBus 这个类，解决办法是去 Android Studio 工程中寻找对应的库文件（一定要根据工程路径寻找，不能在网上随便下载，否则版本对不上一样报错），然后将库文件拷贝至 Unity 工程中，重新打包则无问题。</p>
 <blockquote>
 <p>坑六：当程序出现找不到某个类的错误时，必然就是某个对应的库文件没有拷贝给 Unity。</p>
@@ -666,7 +665,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
