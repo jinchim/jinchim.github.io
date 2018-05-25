@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T09:27:16.770Z">
+<meta property="og:updated_time" content="2018-05-25T09:31:44.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 和 JavaScript 正则表达式总结">
 <meta name="twitter:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
@@ -586,6 +586,9 @@
 </tr>
 </tbody>
 </table>
+<p>有了这类元字符，之前那个检测手机号码的可以简化了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/^1[3458]\d&#123;9&#125;$/</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"15921453264"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.match(regex));</span><br></pre></td></tr></table></figure>
+<p>执行代码，返回 true，这样，一些需要匹配的重复出现的规则相同的字符，写起来就简单多了。</p>
 
       
     </div>
