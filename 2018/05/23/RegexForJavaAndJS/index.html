@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T08:18:28.760Z">
+<meta property="og:updated_time" content="2018-05-25T09:14:14.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 和 JavaScript 正则表达式总结">
 <meta name="twitter:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
@@ -448,7 +448,7 @@
 </tr>
 <tr>
 <td>[]</td>
-<td>匹配字符的范围控制，里面的内容可以是单个字符，也可以是一个范围，用破折号 - 表示区间，比如 [0-9a-z] 表示匹配所有的数字和小写字母的字符</td>
+<td>匹配中括号里的任意字符，里面的内容可以是字符，也可以是一个范围，用破折号 - 表示区间，比如 [0-9a-z] 表示匹配所有的数字和小写字母的字符。中括号内的某些元字符是不起作用的，当作普通字符匹配</td>
 </tr>
 <tr>
 <td>[^]</td>
@@ -491,10 +491,6 @@
 <td>匹配 null 字符</td>
 </tr>
 <tr>
-<td>\b</td>
-<td>匹配空格字符</td>
-</tr>
-<tr>
 <td>\f</td>
 <td>匹配进制字符</td>
 </tr>
@@ -508,7 +504,11 @@
 </tr>
 <tr>
 <td>\t</td>
-<td>匹配制表符</td>
+<td>匹配水平制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配垂直制表符</td>
 </tr>
 <tr>
 <td>\s</td>
@@ -539,11 +539,18 @@
 <td>该元字符前面的表达式（注意不是单个字符了）必须位于目标字符串的行尾位置，这个元字符后面一般不能有表达式</td>
 </tr>
 <tr>
-<td>\A</td>
-<td>从字符串的开始位置开始匹配</td>
+<td>\b</td>
+<td>匹配单词边界，也就是指单词和空格间的位置，这个元字符放在 [] 中表示匹配一个退格符</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界，功能同上，含义相反</td>
 </tr>
 </tbody>
 </table>
+<p>这类元字符还是较常用的，软件产品中经常会有这样的需求，输入框只能输入手机号码，那么到现在就可以写出这么一个功能：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/^1[3458]\d\d\d\d\d\d\d\d\d$/</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"15921453264"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(regex.test(str));</span><br></pre></td></tr></table></figure>
+<p>执行代码，返回 true，这个正则表达式就是把开始位置和结束位置都限定死了，可以用来检测一个字符串是否为手机号码。</p>
 
       
     </div>
