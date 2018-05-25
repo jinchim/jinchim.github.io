@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T09:14:14.054Z">
+<meta property="og:updated_time" content="2018-05-25T09:27:16.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 和 JavaScript 正则表达式总结">
 <meta name="twitter:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
@@ -532,15 +532,15 @@
 <tbody>
 <tr>
 <td>^</td>
-<td>该元字符后面的表达式（注意不是单个字符了）必须位于目标字符串的行首位置，这个元字符前面一般不能有表达式</td>
+<td>该元字符后面的表达式（注意不仅仅是单个字符）必须位于目标字符串的行首位置，这个元字符前面一般不能有表达式</td>
 </tr>
 <tr>
 <td>$</td>
-<td>该元字符前面的表达式（注意不是单个字符了）必须位于目标字符串的行尾位置，这个元字符后面一般不能有表达式</td>
+<td>该元字符前面的表达式必须位于目标字符串的行尾位置，这个元字符后面一般不能有表达式</td>
 </tr>
 <tr>
 <td>\b</td>
-<td>匹配单词边界，也就是指单词和空格间的位置，这个元字符放在 [] 中表示匹配一个退格符</td>
+<td>匹配单词边界，在该元字符前面或后面的表达式必须是是在单词边界，也就是说表达式前面或后面必须有空格，这个元字符放在 [] 中失效，表示匹配一个退格符</td>
 </tr>
 <tr>
 <td>\B</td>
@@ -551,6 +551,41 @@
 <p>这类元字符还是较常用的，软件产品中经常会有这样的需求，输入框只能输入手机号码，那么到现在就可以写出这么一个功能：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/^1[3458]\d\d\d\d\d\d\d\d\d$/</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"15921453264"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(regex.test(str));</span><br></pre></td></tr></table></figure>
 <p>执行代码，返回 true，这个正则表达式就是把开始位置和结束位置都限定死了，可以用来检测一个字符串是否为手机号码。</p>
+<h3 id="重复字符"><a href="#重复字符" class="headerlink" title="重复字符"></a>重复字符</h3><p>这类元字符用来控制要匹配字符串的长度：</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>匹配规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{n}</td>
+<td>n 是一个非负整数，其前面的表达式必须连续出现 n 次</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>n 是一个非负整数，其前面的表达式必须至少出现 n 次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>n 和 m 都是一个非负整数，其前面的表达式必须至少出现 n 次，至多出现 m 次，注意 n 和 m 之间不能有空格</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面的表达式零次或多次，等价于 {0,}</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面的表达式一次或多次，等价于 {1,}</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面的表达式零次或一次，等价于 {0,1}</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -750,7 +785,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是正则表达式"><span class="nav-number">1.</span> <span class="nav-text">什么是正则表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript"><span class="nav-number">2.</span> <span class="nav-text">JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单模式"><span class="nav-number">2.1.</span> <span class="nav-text">简单模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-number">2.2.</span> <span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符-i"><span class="nav-number">2.2.1.</span> <span class="nav-text">修饰符 i</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符-g"><span class="nav-number">2.2.2.</span> <span class="nav-text">修饰符 g</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符-m"><span class="nav-number">2.2.3.</span> <span class="nav-text">修饰符 m</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合使用"><span class="nav-number">2.2.4.</span> <span class="nav-text">混合使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RexExp-对象"><span class="nav-number">2.3.</span> <span class="nav-text">RexExp 对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">2.3.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">2.3.2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#test"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">test()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#exec"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">exec()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串对象"><span class="nav-number">2.4.</span> <span class="nav-text">字符串对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#search"><span class="nav-number">2.4.1.</span> <span class="nav-text">search()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#match"><span class="nav-number">2.4.2.</span> <span class="nav-text">match()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#split"><span class="nav-number">2.4.3.</span> <span class="nav-text">split()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元字符"><span class="nav-number">2.5.</span> <span class="nav-text">元字符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个字符"><span class="nav-number">2.5.1.</span> <span class="nav-text">单个字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空白字符"><span class="nav-number">2.5.2.</span> <span class="nav-text">空白字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锚字符"><span class="nav-number">2.5.3.</span> <span class="nav-text">锚字符</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是正则表达式"><span class="nav-number">1.</span> <span class="nav-text">什么是正则表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript"><span class="nav-number">2.</span> <span class="nav-text">JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单模式"><span class="nav-number">2.1.</span> <span class="nav-text">简单模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-number">2.2.</span> <span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符-i"><span class="nav-number">2.2.1.</span> <span class="nav-text">修饰符 i</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符-g"><span class="nav-number">2.2.2.</span> <span class="nav-text">修饰符 g</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符-m"><span class="nav-number">2.2.3.</span> <span class="nav-text">修饰符 m</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合使用"><span class="nav-number">2.2.4.</span> <span class="nav-text">混合使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RexExp-对象"><span class="nav-number">2.3.</span> <span class="nav-text">RexExp 对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">2.3.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">2.3.2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#test"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">test()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#exec"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">exec()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串对象"><span class="nav-number">2.4.</span> <span class="nav-text">字符串对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#search"><span class="nav-number">2.4.1.</span> <span class="nav-text">search()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#match"><span class="nav-number">2.4.2.</span> <span class="nav-text">match()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#split"><span class="nav-number">2.4.3.</span> <span class="nav-text">split()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元字符"><span class="nav-number">2.5.</span> <span class="nav-text">元字符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个字符"><span class="nav-number">2.5.1.</span> <span class="nav-text">单个字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空白字符"><span class="nav-number">2.5.2.</span> <span class="nav-text">空白字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锚字符"><span class="nav-number">2.5.3.</span> <span class="nav-text">锚字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重复字符"><span class="nav-number">2.5.4.</span> <span class="nav-text">重复字符</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
