@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T07:05:20.106Z">
+<meta property="og:updated_time" content="2018-05-25T07:11:02.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 和 JavaScript 正则表达式总结">
 <meta name="twitter:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
@@ -434,6 +434,24 @@
 </blockquote>
 <h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><p>正则表达式中的元字符是包含特殊含义的字符，它们有一些特殊的功能，可以控制字符串匹配的方式。如果想要使元字符用作普通字符，在其前面加上反斜杠。</p>
 <h3 id="单个字符"><a href="#单个字符" class="headerlink" title="单个字符"></a>单个字符</h3><p>这类元字符只能匹配字符串中的一个字符：</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>匹配规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>匹配字符的范围控制，里面的内容是一个范围，用破折号 - 表示区间，比如 [0-9a-z] 表示匹配所有的数字和小写字母的字符</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配除换行符以外的所有字符</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>.：匹配除换行符以外的所有字符</li>
 <li>[]：匹配字符的范围控制，里面的内容是一个范围，用破折号 - 表示区间，比如 [0-9a-z] 表示匹配所有的数字和小写字母的字符</li>
