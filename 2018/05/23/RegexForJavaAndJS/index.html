@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="金梧的个人博客">
 <meta property="og:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T07:02:19.278Z">
+<meta property="og:updated_time" content="2018-05-25T07:05:20.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 和 JavaScript 正则表达式总结">
 <meta name="twitter:description" content="很长一段时间没有总结写博客了，也不是因为有多忙，而是在闲暇的时间人就变懒了，各种电影、游戏打发了时间。经过一段时间的低迷，又重新燃气了学习的欲望，所以写博客这个习惯还是要保持下去。前不久为了学习 PVP 游戏开发买了一个阿里云的服务器，闲下来后觉得有一些浪费，准备干点儿什么。因为平时混迹各种平台，账号太多记不住，打算写一个简单的网页，用于管理这些账号，于是又开始了 Web 的学习。在学到 Java">
@@ -345,7 +345,7 @@
 <h1 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h1><p>正则表达式是由一个字符序列形成的搜索模式，当你在文本中搜索数据时，你可以用搜索模式来描述你要查询的内容。正则表达式可以是一个简单的字符，或一个更复杂的模式。正则表达式可用于所有文本搜索和文本替换的操作。</p>
 <p>大部分编程语言都支持正则表达式，每种语言又有细节上的差异，本文只对 Java 和 JavaScript 的正则表达式做一个总结。</p>
 <h1 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h1><p>在 JavaScript 中，正则表达式的形式是：</p>
-<p>/表达式/[修饰符]</p>
+<p><strong>/表达式/[修饰符]</strong></p>
 <p>其中表达式是主体，修饰符可以省略。</p>
 <h2 id="简单模式"><a href="#简单模式" class="headerlink" title="简单模式"></a>简单模式</h2><p>先来一个最简单的正则表达式：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/boy/</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"I am a beautiful boy."</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.match(regex));</span><br></pre></td></tr></table></figure>
